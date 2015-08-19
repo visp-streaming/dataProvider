@@ -57,6 +57,7 @@ public class HelloWorldService {
             }
             connectionFactory.destroy();
 
+
             return location.getTime();
 
         } catch (ClassNotFoundException e) {
