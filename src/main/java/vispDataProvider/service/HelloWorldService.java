@@ -42,6 +42,11 @@ public class HelloWorldService {
             statement = connect.createStatement();
             resultSet = statement.executeQuery("SELECT * FROM Taxi WHERE time = (SELECT time FROM Taxi WHERE time > \"" + lastDate + "\" ORDER BY time ASC LIMIT 1)");
 
+            if (!resultSet.isBeforeFirst()) {
+                return lastDate;
+            }
+
+
             while (resultSet.next()) {
                 location = new Location(resultSet.getString("id"), resultSet.getString("taxiId"), resultSet.getString("time"), resultSet.getString("latitude"), resultSet.getString("longitude"));
 
@@ -55,6 +60,9 @@ public class HelloWorldService {
                 LOG.info("Message sent: " + msg.toString());
 
             }
+            resultSet.close();
+            statement.close();
+            connect.close();
             connectionFactory.destroy();
 
 
