@@ -40,7 +40,7 @@ public class HelloWorldService {
             connect = DriverManager.getConnection("jdbc:mysql://localhost/taxiData","root", "password");
 
             statement = connect.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM Taxi WHERE time = (SELECT time FROM Taxi WHERE time > \"" + lastDate + "\" ORDER BY time ASC LIMIT 1)");
+            resultSet = statement.executeQuery("SELECT * FROM Taxi WHERE time IN (select * FROM (SELECT DISTINCT time FROM Taxi WHERE time > \"" + lastDate + "\" ORDER BY time ASC LIMIT 5) sub ) ORDER BY time ASC");
 
             if (!resultSet.isBeforeFirst()) {
                 return lastDate;
@@ -57,8 +57,7 @@ public class HelloWorldService {
                 template.setRoutingKey(QUEUE_NAME);
                 template.setQueue(QUEUE_NAME);
                 template.convertAndSend(msg);
-                LOG.info("Message sent: " + msg.toString());
-
+                LOG.info("Message sent: " + location.getTime());
             }
             resultSet.close();
             statement.close();
