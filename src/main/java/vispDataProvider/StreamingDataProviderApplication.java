@@ -9,4 +9,5 @@ public class StreamingDataProviderApplication {
     public static void main(String[] args) {
         SpringApplication.run(StreamingDataProviderApplication.class, args);
     }
+
 }
