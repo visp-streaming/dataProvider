@@ -1,4 +1,4 @@
-package vispDataProvider;
+package vispDataProvider.quartzUtility;
 
 import org.quartz.JobDetail;
 import org.quartz.SimpleTrigger;
@@ -15,8 +15,8 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
-import vispDataProvider.job.HelloWorldJob;
-import vispDataProvider.spring.AutowiringSpringBeanJobFactory;
+import vispDataProvider.job.CustomGeneratorJob;
+import vispDataProvider.quartzUtility.AutowiringSpringBeanJobFactory;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -34,15 +34,14 @@ public class SchedulerConfig {
     }
 
     @Bean
-    public SchedulerFactoryBean schedulerFactoryBean(DataSource dataSource, JobFactory jobFactory,  @Qualifier("helloWorldJobTrigger") Trigger helloWorldJobTrigger) throws IOException {
+    public SchedulerFactoryBean schedulerFactoryBean(DataSource dataSource, JobFactory jobFactory,  @Qualifier("dataGeneratorJobTrigger") Trigger dataGeneratorJobTrigger) throws IOException {
         SchedulerFactoryBean factory = new SchedulerFactoryBean();
-        // this allows to update triggers in DB when updating settings in config file:
         factory.setOverwriteExistingJobs(true);
         factory.setDataSource(dataSource);
         factory.setJobFactory(jobFactory);
 
         factory.setQuartzProperties(quartzProperties());
-        factory.setTriggers(helloWorldJobTrigger);
+        factory.setTriggers(dataGeneratorJobTrigger);
 
         return factory;
     }
@@ -56,19 +55,18 @@ public class SchedulerConfig {
     }
 
     @Bean
-    public JobDetailFactoryBean helloWorldJobDetail() {
-        return createJobDetail(HelloWorldJob.class);
+    public JobDetailFactoryBean dataGeneratorJobDetail() {
+        return createJobDetail(CustomGeneratorJob.class);
     }
 
-    @Bean(name = "helloWorldJobTrigger")
-    public SimpleTriggerFactoryBean helloWorldJobTrigger(@Qualifier("helloWorldJobDetail") JobDetail jobDetail, @Value("${helloWorldjob.frequency}") long frequency) {
+    @Bean(name = "dataGeneratorJobTrigger")
+    public SimpleTriggerFactoryBean dataGeneratorJobTrigger(@Qualifier("dataGeneratorJobDetail") JobDetail jobDetail, @Value("${dataGenerator.frequency}") long frequency) {
         return createTrigger(jobDetail, frequency);
     }
 
     private static JobDetailFactoryBean createJobDetail(Class jobClass) {
         JobDetailFactoryBean factoryBean = new JobDetailFactoryBean();
         factoryBean.setJobClass(jobClass);
-        // job has to be durable to be stored in DB:
         factoryBean.setDurability(true);
         return factoryBean;
     }
@@ -79,7 +77,6 @@ public class SchedulerConfig {
         factoryBean.setStartDelay(0L);
         factoryBean.setRepeatInterval(pollFrequencyMs);
         factoryBean.setRepeatCount(SimpleTrigger.REPEAT_INDEFINITELY);
-        // in case of misfire, ignore all missed triggers and continue :
         factoryBean.setMisfireInstruction(SimpleTrigger.MISFIRE_INSTRUCTION_RESCHEDULE_NEXT_WITH_REMAINING_COUNT);
         return factoryBean;
     }

@@ -1,4 +1,4 @@
-package vispDataProvider.service;
+package vispDataProvider.dataSender;
 
 import entities.Message;
 import org.slf4j.Logger;
@@ -9,17 +9,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-public class HelloWorldService3 implements HelloWorldService {
+public class RabbitMQSender implements MessageSender {
 
-    private static final Logger LOG = LoggerFactory.getLogger(HelloWorldService3.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RabbitMQSender.class);
 
-    @Value("${rabbitMQ.outgoingQueue2}")
+    @Value("${rabbitMQ.outgoingQueue}")
     private String QUEUE_NAME;
 
     @Value("${spring.rabbitmq.host}")
     private String RABBITMQ_HOST;
 
-    public void hello(Message msg) {
+    public void sendMessage(Message msg) {
 
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory(RABBITMQ_HOST);
 

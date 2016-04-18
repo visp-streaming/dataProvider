@@ -1,4 +1,4 @@
-package vispDataProvider.spring;
+package vispDataProvider.quartzUtility;
 
 import org.quartz.spi.TriggerFiredBundle;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
