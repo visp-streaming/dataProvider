@@ -13,7 +13,7 @@ import vispDataProvider.dataSender.RabbitMQSender;
 import java.sql.*;
 
 @PersistJobDataAfterExecution
-public class CustomGeneratorJob extends DataGeneratorJob {
+public class TaxiDataGeneratorJob extends DataGeneratorJob {
 
     @Autowired
     protected RabbitMQSender sender;
