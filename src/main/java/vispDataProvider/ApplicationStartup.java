@@ -6,8 +6,6 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 import vispDataProvider.utilities.RabbitMQCleanup;
 
-import static java.util.Arrays.asList;
-
 @Component
 public class ApplicationStartup implements ApplicationListener<ContextRefreshedEvent> {
 
@@ -17,7 +15,11 @@ public class ApplicationStartup implements ApplicationListener<ContextRefreshedE
     @Override
     public void onApplicationEvent(final ContextRefreshedEvent event) {
 
-        rabbitMQCleanup.cleanupRabbitMQQueues(asList("aggregationsource", "analysisavgSpeed", "analysisdistance", "avgSpeedspeed", "distanceaggregation", "monitoranalysis", "monitorsource", "speedsource"));
+        //rabbitMQCleanup.cleanupRabbitMQQueues(asList("aggregationsource", "analysisavgSpeed", "analysisdistance", "avgSpeedspeed", "distanceaggregation", "monitoranalysis", "monitorsource", "speedsource"));
+
+        //rabbitMQCleanup.cleanupRabbitMQQueues(asList("speedsource", "step1source", "step2step1", "step3step2", "step4step3", "step5step4", "logstep5", "logstep"));
+
+
 
     }
 }
