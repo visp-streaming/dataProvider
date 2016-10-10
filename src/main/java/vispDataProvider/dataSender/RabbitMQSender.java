@@ -19,9 +19,19 @@ public class RabbitMQSender implements MessageSender {
     @Value("${spring.rabbitmq.host}")
     private String RABBITMQ_HOST;
 
+    @Value("${spring.rabbitmq.username}")
+    private String rabbitmqUsername;
+
+    @Value("${spring.rabbitmq.password}")
+    private String rabbitmqPassword;
+
+
     public void sendMessage(Message msg) {
 
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory(RABBITMQ_HOST);
+        connectionFactory.setUsername(rabbitmqUsername);
+        connectionFactory.setPassword(rabbitmqPassword);
+
 
         RabbitTemplate template = new RabbitTemplate(connectionFactory);
         template.setRoutingKey(QUEUE_NAME);
