@@ -2,12 +2,14 @@ package streamingDataProvider;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import vispDataProvider.StreamingDataProviderApplication;
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = StreamingDataProviderApplication.class)
+@SpringBootTest
+@TestPropertySource(locations="classpath:application.properties")
 public class StreamingDataProviderApplicationTests {
 
 	@Test
