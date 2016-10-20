@@ -3,8 +3,8 @@ package vispDataProvider.job;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import entities.Location;
 import entities.Message;
+import entities.cloud.Location;
 import org.joda.time.DateTime;
 import org.quartz.PersistJobDataAfterExecution;
 import org.springframework.beans.factory.annotation.Autowired;

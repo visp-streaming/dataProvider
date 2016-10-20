@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import entities.Message;
 import entities.peerJ.Availability;
-import entities.peerJ.Status;
 import org.joda.time.DateTime;
 import org.quartz.PersistJobDataAfterExecution;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,12 +36,12 @@ public class PeerJAvailabilityProvider extends DataGeneratorJob {
             av.setAssetID(assetID);
 
             if ((int) (Math.random() * 100) == 1) {
-                av.setAvailability(Status.DEFECT);
+                av.setAvailability("DEFECT");
             } else {
                 if ((int) (Math.random() * 50) == 1) {
-                    av.setAvailability(Status.PLANNEDDOWNTIME);
+                    av.setAvailability("PLANNEDDOWNTIME");
                 } else {
-                    av.setAvailability(Status.DEFECT);
+                    av.setAvailability("DEFECT");
                 }
             }
 

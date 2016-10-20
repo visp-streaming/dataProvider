@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import entities.Message;
 import entities.peerJ.MachineData;
-import entities.peerJ.Status;
 import org.joda.time.DateTime;
 import org.quartz.PersistJobDataAfterExecution;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,22 +55,23 @@ public class PeerJMachineDataProvider extends DataGeneratorJob {
 
         if ((int)(Math.random() * 10) == 1) {
             md.setProducedUnits(0);
-            md.setProducedUnits(0);
+            md.setDefectiveUnits(0);
 
             if ((int)(Math.random() * 5) == 1) {
-                md.setActive(Status.PLANNEDDOWNTIME);
+                md.setActive("PLANNEDDOWNTIME");
             } else {
-                md.setActive(Status.DEFECT);
+                md.setActive("DEFECT");
             }
         } else {
+            md.setActive("ACTIVE");
             md.setProducedUnits(ThreadLocalRandom.current().nextInt(0, 3 + 2 + 1));
-            md.setProducedUnits(Math.abs(ThreadLocalRandom.current().nextInt(0, 2)-md.getProducedUnits()));
+            md.setDefectiveUnits(Math.abs(ThreadLocalRandom.current().nextInt(0, 2) - md.getProducedUnits()));
         }
 
             ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
             Message msg = null;
             try {
-                msg = new Message("machineData", ow.writeValueAsString(md));
+                msg = new Message("initialmachinedata", ow.writeValueAsString(md));
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }

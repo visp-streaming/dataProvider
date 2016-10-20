@@ -15,6 +15,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
+import vispDataProvider.job.PeerJMachineDataProvider;
 import vispDataProvider.job.SequentialWaitGeneratorJob;
 
 import javax.sql.DataSource;
@@ -56,7 +57,7 @@ public class SchedulerConfig {
     @Bean
     public JobDetailFactoryBean dataGeneratorJobDetail() {
         //TODO update for other dataGenerator
-        return createJobDetail(SequentialWaitGeneratorJob.class);
+        return createJobDetail(PeerJMachineDataProvider.class);
     }
 
     @Bean(name = "dataGeneratorJobTrigger")
