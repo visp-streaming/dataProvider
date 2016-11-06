@@ -9,6 +9,7 @@ public class Constant implements GenerationPattern{
 
         state.setAmount(5);
         state.setIteration(state.getIteration()+1);
+        state.setOverallCounter(state.getOverallCounter() + 1);
 
         return state;
     }

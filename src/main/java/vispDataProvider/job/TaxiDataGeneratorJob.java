@@ -51,7 +51,7 @@ public class TaxiDataGeneratorJob extends DataGeneratorJob {
                 ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
                 Message msg = new Message(ow.writeValueAsString(location));
 
-                ConnectionThread con1 = new ConnectionThread(sender, msg);
+                ConnectionThread con1 = new ConnectionThread(sender, msg, "source");
                 new Thread(con1).start();
                 count++;
             }

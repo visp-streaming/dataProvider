@@ -8,6 +8,9 @@ import org.quartz.PersistJobDataAfterExecution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.SpringApplication;
+import org.springframework.context.ApplicationContext;
 import vispDataProvider.datasources.DataGenerationStateRepository;
 import vispDataProvider.entities.GenerationState;
 import vispDataProvider.generationPattern.PatternSelector;
@@ -21,9 +24,15 @@ public abstract class DataGeneratorJob implements Job {
     @Autowired
     protected PatternSelector generationPattern;
 
+    @Autowired
+    private ApplicationContext appContext;
+
     protected JobDataMap jdMap;
 
     protected GenerationState state = new GenerationState();
+
+    @Value("${dataGenerator.iterations}")
+    private Integer overallIterations;
 
     protected static final Logger LOG = LoggerFactory.getLogger(DataGeneratorJob.class);
 
@@ -44,7 +53,16 @@ public abstract class DataGeneratorJob implements Job {
             state.setDirection(jdMap.get("direction").toString());
         }
 
-        customDataGeneration();
+        if (jdMap.get("overallCounter") != null) {
+            state.setOverallCounter(Integer.parseInt(jdMap.get("overallCounter").toString()));
+        }
+
+        if (state.getOverallCounter()<overallIterations) {
+            customDataGeneration();
+        } else {
+            SpringApplication.exit(appContext, () -> 0);
+        }
+
 
         state = generationPattern.iterate(state);
         storeGenerationState();
@@ -57,7 +75,6 @@ public abstract class DataGeneratorJob implements Job {
         jdMap.put("direction", state.getDirection());
         jdMap.put("amount", state.getAmount().toString());
         jdMap.put("iteration", state.getIteration().toString());
+        jdMap.put("overallCounter", state.getOverallCounter().toString());
     }
-
-
 }

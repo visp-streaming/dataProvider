@@ -17,11 +17,13 @@ public class GenerationState {
     private Integer amount;
     private String time;
     private Integer actualAmount;
+    private Integer overallCounter;
 
     public GenerationState() {
         direction = "up";
         iteration = 1;
         amount = 1;
+        overallCounter = 0;
     }
 
     public String getDirection() {
@@ -62,5 +64,13 @@ public class GenerationState {
 
     public void setActualAmount(Integer actualAmount) {
         this.actualAmount = actualAmount;
+    }
+
+    public Integer getOverallCounter() {
+        return overallCounter;
+    }
+
+    public void setOverallCounter(Integer overallCounter) {
+        this.overallCounter = overallCounter;
     }
 }

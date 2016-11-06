@@ -5,6 +5,6 @@ import entities.Message;
 
 public interface MessageSender {
 
-    void sendMessage(Message msg);
+    void sendMessage(Message msg, String queue);
 
 }

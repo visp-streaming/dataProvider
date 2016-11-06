@@ -36,6 +36,8 @@ public class LongSinus implements GenerationPattern{
                 state.setIteration((state.getIteration() + 1));
             }
         }
+        state.setOverallCounter(state.getOverallCounter() + 1);
+
         return state;
     }
 }

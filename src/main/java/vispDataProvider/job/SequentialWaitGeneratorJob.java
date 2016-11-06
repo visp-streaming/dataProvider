@@ -16,7 +16,7 @@ public class SequentialWaitGeneratorJob extends DataGeneratorJob {
 
         for (int i = 0; i<state.getAmount(); i++) {
             Message msg = new Message("wait", "step1");
-            ConnectionThread con1 = new ConnectionThread(sender, msg);
+            ConnectionThread con1 = new ConnectionThread(sender, msg, "source");
             new Thread(con1).start();
         }
     }
