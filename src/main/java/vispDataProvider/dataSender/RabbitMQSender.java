@@ -13,7 +13,6 @@ public class RabbitMQSender implements MessageSender {
 
     private static final Logger LOG = LoggerFactory.getLogger(RabbitMQSender.class);
 
-
     @Value("${spring.rabbitmq.host}")
     private String RABBITMQ_HOST;
 
@@ -29,7 +28,6 @@ public class RabbitMQSender implements MessageSender {
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory(RABBITMQ_HOST);
         connectionFactory.setUsername(rabbitmqUsername);
         connectionFactory.setPassword(rabbitmqPassword);
-
 
         RabbitTemplate template = new RabbitTemplate(connectionFactory);
         template.setRoutingKey(queue);

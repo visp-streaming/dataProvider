@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.util.Properties;
 
 @Configuration
-@ConditionalOnProperty(name = "quartz.enabled")
 public class SchedulerConfig {
 
     @Bean
