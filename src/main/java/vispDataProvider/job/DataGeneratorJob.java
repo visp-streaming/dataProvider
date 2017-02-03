@@ -1,43 +1,33 @@
 package vispDataProvider.job;
 
 
-import org.quartz.Job;
+import org.quartz.DisallowConcurrentExecution;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.PersistJobDataAfterExecution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.SpringApplication;
-import org.springframework.context.ApplicationContext;
-import vispDataProvider.datasources.DataGenerationStateRepository;
+import org.springframework.scheduling.quartz.QuartzJobBean;
 import vispDataProvider.entities.GenerationState;
 import vispDataProvider.generationPattern.PatternSelector;
 
 @PersistJobDataAfterExecution
-public abstract class DataGeneratorJob implements Job {
+@DisallowConcurrentExecution
+public abstract class DataGeneratorJob extends QuartzJobBean {
 
-    @Autowired
-    protected DataGenerationStateRepository logger;
-
-    @Autowired
-    protected PatternSelector generationPattern;
-
-    @Autowired
-    private ApplicationContext appContext;
+    protected String pattern;
+    protected String host;
+    protected String user;
+    protected String password;
 
     protected JobDataMap jdMap;
 
     protected GenerationState state = new GenerationState();
 
-    @Value("${dataGenerator.iterations}")
-    private Integer overallIterations;
-
     protected static final Logger LOG = LoggerFactory.getLogger(DataGeneratorJob.class);
 
     @Override
-    public void execute(JobExecutionContext jobExecutionContext) {
+    public void executeInternal(JobExecutionContext jobExecutionContext) {
 
         jdMap = jobExecutionContext.getJobDetail().getJobDataMap();
 
@@ -57,14 +47,8 @@ public abstract class DataGeneratorJob implements Job {
             state.setOverallCounter(Integer.parseInt(jdMap.get("overallCounter").toString()));
         }
 
-        if (state.getOverallCounter()<overallIterations) {
-            customDataGeneration();
-        } else {
-            SpringApplication.exit(appContext, () -> 0);
-        }
-
-
-        state = generationPattern.iterate(state);
+        customDataGeneration();
+        state = new PatternSelector(pattern).iterate(state);
         storeGenerationState();
     }
 
@@ -76,5 +60,21 @@ public abstract class DataGeneratorJob implements Job {
         jdMap.put("amount", state.getAmount().toString());
         jdMap.put("iteration", state.getIteration().toString());
         jdMap.put("overallCounter", state.getOverallCounter().toString());
+    }
+
+    public void setPattern(String pattern) {
+        this.pattern = pattern;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

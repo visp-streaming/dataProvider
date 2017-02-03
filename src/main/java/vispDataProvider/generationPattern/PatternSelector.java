@@ -1,14 +1,14 @@
 package vispDataProvider.generationPattern;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 import vispDataProvider.entities.GenerationState;
 
-@Service
 public class PatternSelector {
 
-    @Value("${generationPattern}")
     private String generationPattern;
+
+    public PatternSelector(String pattern) {
+        this.generationPattern = pattern;
+    }
 
     public GenerationState iterate(GenerationState state) {
         GenerationPattern pattern = null;

@@ -6,19 +6,17 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import entities.Message;
 import entities.cloud.Location;
 import org.joda.time.DateTime;
-import org.quartz.PersistJobDataAfterExecution;
-import org.springframework.beans.factory.annotation.Autowired;
 import vispDataProvider.dataSender.RabbitMQSender;
 
 import java.sql.*;
 
-@PersistJobDataAfterExecution
 public class TaxiDataGeneratorJob extends DataGeneratorJob {
 
-    @Autowired
     protected RabbitMQSender sender;
 
-    protected void customDataGeneration() {
+    public void customDataGeneration() {
+        sender = new RabbitMQSender(host, user, password);
+
         String lastTime = "111";
 
         if (jdMap.get("lastTime") != null) {
@@ -58,7 +56,7 @@ public class TaxiDataGeneratorJob extends DataGeneratorJob {
 
             state.setTime(new DateTime().toString());
             state.setActualAmount(count);
-            logger.save(state);
+            //logger.save(state);
 
             resultSet.close();
             statement.close();

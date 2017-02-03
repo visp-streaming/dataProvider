@@ -8,8 +8,6 @@ import entities.peerJ.Availability;
 import entities.peerJ.MachineData;
 import entities.peerJ.Temperature;
 import org.joda.time.DateTime;
-import org.quartz.PersistJobDataAfterExecution;
-import org.springframework.beans.factory.annotation.Autowired;
 import vispDataProvider.dataSender.RabbitMQSender;
 
 import java.util.HashMap;
@@ -17,13 +15,12 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
-@PersistJobDataAfterExecution
 public class PeerJMachineDataProvider extends DataGeneratorJob {
 
-    @Autowired
     protected RabbitMQSender sender;
 
     public void customDataGeneration() {
+        sender = new RabbitMQSender(host, user, password);
 
         DateTime dt = new DateTime();
 
