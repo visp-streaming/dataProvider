@@ -5,6 +5,6 @@ import vispDataProvider.entities.GenerationState;
 
 public interface GenerationPattern {
 
-    public GenerationState iterate(GenerationState state);
+    GenerationState iterate(GenerationState state);
 
 }

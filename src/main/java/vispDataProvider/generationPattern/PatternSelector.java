@@ -14,9 +14,9 @@ public class PatternSelector {
         GenerationPattern pattern = null;
 
         switch(generationPattern) {
-            case "LongSinus": pattern = new LongSinus(); break;
+            case "Long Sinus": pattern = new LongSinus(); break;
             case "Constant": pattern = new Constant(); break;
-            case "LinearIncrease": pattern = new LinearIncrease(); break;
+            case "Linear Increase": pattern = new LinearIncrease(); break;
             case "Pyramid": pattern = new Pyramid(); break;
             default: throw new IllegalArgumentException("configured Pattern is not available");
         }

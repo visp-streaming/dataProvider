@@ -14,6 +14,7 @@ import java.util.Set;
 
 @Controller
 public class JobUtility {
+
     @Autowired
     public SchedulerFactoryBean schedulerFactoryBean;
 

@@ -16,15 +16,6 @@
         </div>
    </div>
 
-    <div class="panel panel-default">
-        <div class="panel-heading">Utility Operations</div>
-        <div class="panel-body">
-            <!--<a class="btn btn-info" th:href="${'/util/newhost'}">Add new Host</a>-->
-            <a class="btn btn-info" th:href="${'/util/cleanup'}">Cleanup Hosts</a>
-            <a class="btn btn-danger" th:href="${'/util/killall'}">Kill all Services</a>
-        </div>
-    </div>
-
 
     <th:block th:unless="${#arrays.length(tasks) == 0}">
 
@@ -35,10 +26,9 @@
                 <table class="table table-hover nohead">
                     <tbody>
                         <tr>
-                            <th class="vertmiddle col-md-2">Type</th>
-                            <th class="vertmiddle col-md-3">Pattern</th>
-                            <th class="vertmiddle col-md-3">Description</th>
-                            <th class="vertmiddle col-md-3">Progress</th>
+                            <th class="vertmiddle col-md-3">Type</th>
+                            <th class="vertmiddle col-md-4">Description</th>
+                            <th class="vertmiddle col-md-4">Progress</th>
                             <th class="vertmiddle col-md-1">
                                 <div class="center-block">
                                     Actions
@@ -47,7 +37,6 @@
                         </tr>
                         <tr th:each="task : ${tasks}">
                             <td class="vertmiddle col-md-2" th:text="${task.getJobName()}"></td>
-                            <td class="vertmiddle col-md-3" th:text="${task.getJobGroup()}"></td>
                             <td class="vertmiddle col-md-3" th:text="${task.getDescription()}"></td>
                             <td class="vertmiddle col-md-3">
                                 <div class="progress">

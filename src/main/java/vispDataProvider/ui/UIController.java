@@ -15,5 +15,10 @@ public class UIController {
 	}
 
 
+	@RequestMapping("/topology")
+	public String topology() {
+		return "topology";
+	}
+
 
 }

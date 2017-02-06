@@ -7,10 +7,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import vispDataProvider.entities.CreateTaskForm;
+import vispDataProvider.entities.EndpointConfiguration;
+import vispDataProvider.util.EndpointConfigurationService;
 import vispDataProvider.util.JobUtility;
 import vispDataProvider.util.MyScheduler;
+import vispDataProvider.util.Presets;
 
 @Controller
 public class UtilController {
@@ -23,10 +29,21 @@ public class UtilController {
     @Autowired
     private JobUtility jobUtility;
 
+    @Autowired
+    private Presets presets;
+
+    @Autowired
+    private EndpointConfigurationService ecs;
+
     @RequestMapping("/")
     public String index(Model model) throws SchedulerException {
 
-        model.addAttribute("message", null);
+        if (ecs.getConfiguration().getUri() == null) {
+            model.addAttribute("message", "The URI of the receiving endpoint needs to be configured.");
+        } else {
+            model.addAttribute("message", null);
+        }
+
         model.addAttribute("tasks", jobUtility.getTasks());
         return "tasks";
     }
@@ -34,34 +51,47 @@ public class UtilController {
     @RequestMapping("/newTask")
     public String run(Model model) {
 
-        //TODO list all currently running tasks and their progress and provide a kill app
+        CreateTaskForm taskform = new CreateTaskForm();
+
+        model.addAttribute("types", presets.getTypes());
+        model.addAttribute("patterns", presets.getPatterns());
+        model.addAttribute("frequency", 1000);
+        model.addAttribute("iterations", 10);
+        model.addAttribute(taskform);
 
         model.addAttribute("message", null);
-        //model.addAttribute("services", isr.findAll());
-        return "about";
+        return "createTask";
     }
+
+    @RequestMapping(value="/createTask", method= RequestMethod.POST)
+    public String userCreated(@ModelAttribute CreateTaskForm form, Model model) throws SchedulerException {
+
+        myScheduler.scheduleJob(form.getType(), form.getPattern(), form.getFrequency(), form.getIterations());
+
+        model.addAttribute("message", "A new task has beeen started.");
+        model.addAttribute("tasks", jobUtility.getTasks());
+
+        return "tasks";
+    }
+
 
     @RequestMapping("/configuration")
     public String configuration(Model model) {
 
-        //TODO list all currently running tasks and their progress and provide a kill app
-
+        model.addAttribute("endpointConfiguration", ecs.getConfiguration());
         model.addAttribute("message", null);
-        //model.addAttribute("services", isr.findAll());
-        return "about";
+        return "configuration";
     }
 
-    @RequestMapping("/runTask")
-    public String runTask(Model model) throws SchedulerException {
+    @RequestMapping(value="/configurationSaved", method= RequestMethod.POST)
+    public String configurationSaved(@ModelAttribute EndpointConfiguration form, Model model) throws SchedulerException {
 
-        myScheduler.scheduleJob();
+        ecs.storeData(form);
 
 
-        //TODO list all currently running tasks and their progress and provide a kill app
-
-        model.addAttribute("message", null);
-        model.addAttribute("tasks", jobUtility.getTasks());
-        return "tasks";
+        model.addAttribute("endpointConfiguration", ecs.getConfiguration());
+        model.addAttribute("message", "The configuration has been updated.");
+        return "configuration";
     }
 
 
@@ -74,6 +104,4 @@ public class UtilController {
         model.addAttribute("tasks", jobUtility.getTasks());
         return "tasks";
     }
-
-
 }

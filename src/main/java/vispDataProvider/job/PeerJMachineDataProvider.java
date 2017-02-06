@@ -42,7 +42,7 @@ public class PeerJMachineDataProvider extends DataGeneratorJob {
             String assetID = entry.getKey();
             String location = entry.getValue();
 
-            Integer steps = (int) reportingInterval / 10;
+            Integer steps = reportingInterval / 10;
             Integer intermediateIntervall = 0;
 
             for (int i = 0; i < steps; i++) {

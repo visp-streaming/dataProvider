@@ -2,73 +2,70 @@ package vispDataProvider.util;
 
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
 import vispDataProvider.job.PeerJMachineDataProvider;
+import vispDataProvider.job.SequentialWaitGeneratorJob;
+import vispDataProvider.job.TaxiDataGeneratorJob;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class MyScheduler {
     @Autowired
     public SchedulerFactoryBean schedulerFactoryBean;
 
-    @Value("${spring.rabbitmq.host}")
-    private String RABBITMQ_HOST;
+    @Autowired
+    private EndpointConfigurationService ecs;
 
-    @Value("${spring.rabbitmq.username}")
-    private String rabbitmqUsername;
-
-    @Value("${spring.rabbitmq.password}")
-    private String rabbitmqPassword;
-
-    @Value("${generationPattern}")
-    private String generationPattern;
-
-    @Value("${dataGenerator.frequency}")
-    private Integer frequency;
-
-    @Value("${dataGenerator.iterations}")
-    private Integer iterations;
-
-    public void scheduleJob() throws SchedulerException {
+    public void scheduleJob(String type, String pattern, Integer frequency, Integer iterations) throws SchedulerException {
 
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
 
         Map<String,Object> map = new HashMap<>();
-        map.put("pattern", generationPattern);
-        map.put("host", RABBITMQ_HOST);
-        map.put("user", rabbitmqUsername);
-        map.put("password", rabbitmqPassword);
+        map.put("pattern", pattern);
+        map.put("host", ecs.getConfiguration().getUri());
+        map.put("user", ecs.getConfiguration().getName());
+        map.put("password", ecs.getConfiguration().getPassword());
 
-        //TODO encode name/pattern somehow
+        JobDetail jobDetail = JobBuilder.newJob(SequentialWaitGeneratorJob.class).build();
 
+        if (type.equals("Machine Data")) {
+            jobDetail = JobBuilder.newJob(PeerJMachineDataProvider.class)
+                    .withIdentity(type + "-" + pattern, UUID.randomUUID().toString())
+                    .setJobData(new JobDataMap(map))
+                    .withDescription("")
+                    .build();
+        }
 
-        //TODO get data from
+        if (type.equals("Sequential Wait")) {
+            jobDetail = JobBuilder.newJob(SequentialWaitGeneratorJob.class)
+                    .withIdentity(type + "-" + pattern, UUID.randomUUID().toString())
+                    .setJobData(new JobDataMap(map))
+                    .withDescription("")
+                    .build();
+        }
 
-        JobDetail jobDetail = JobBuilder.newJob(PeerJMachineDataProvider.class)
-                .withIdentity("job1", "group1")
-                .setJobData(new JobDataMap(map))
-                .withDescription("blabla")
-                .build();
+        if (type.equals("Taxi Data")) {
+            jobDetail = JobBuilder.newJob(TaxiDataGeneratorJob.class)
+                    .withIdentity(type + "-" + pattern, UUID.randomUUID().toString())
+                    .setJobData(new JobDataMap(map))
+                    .withDescription("")
+                    .build();
+        }
+
 
         SimpleScheduleBuilder scheduleBuilder1 = SimpleScheduleBuilder.
                 simpleSchedule()
-                .withIntervalInMinutes(1)
+                .withIntervalInMilliseconds(frequency)
                 .withRepeatCount(iterations);
 
-        //withIntervalInMilliseconds(frequency)
-
-
         SimpleTrigger trigger = TriggerBuilder.newTrigger()
-                .withIdentity("trigger1", "group1")
+                .withIdentity(UUID.randomUUID().toString(), UUID.randomUUID().toString())
                 .withSchedule(scheduleBuilder1).build();
 
-
         scheduler.scheduleJob(jobDetail, trigger);
-
     }
-
 }
