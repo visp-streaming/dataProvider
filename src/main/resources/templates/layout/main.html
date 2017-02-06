@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="fragments/head :: head" />
+
+<body>
+<div class="page-container">
+    <div class="navbar navbar-default navbar-fixed-top" th:fragment="nav" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="offcanvas" data-target=".sidebar-nav">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" id="brand" th:href="@{/}">VISP Dataprovider</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row row-offcanvas row-offcanvas-left">
+
+            <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+                <ul class="nav" id="nav">
+                    <!--/*@thymesVar id="viewName" type="java.lang.String"*/-->
+
+                    <li th:each="entry : ${@navigation.navEntries}"
+                        th:classappend="${viewName == entry.viewName} ? 'active'">
+                        <a th:href="${entry.url}" th:text="${entry.userFriendlyName}"/>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-xs-12 col-sm-9 content-box">
+                <th:block layout:fragment="content" />
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle=offcanvas]').click(function () {
+                $('.row-offcanvas').toggleClass('active');
+            });
+        });
+    </script>
+</div>
+</body>
+</html>

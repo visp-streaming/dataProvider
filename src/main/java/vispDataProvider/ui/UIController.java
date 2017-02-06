@@ -1,0 +1,19 @@
+package vispDataProvider.ui;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+
+@Controller
+@RequestMapping("/")
+public class UIController {
+
+
+	@RequestMapping("/about")
+	public String index() {
+		return "about";
+	}
+
+
+
+}

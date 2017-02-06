@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/main">
+<head></head>
+
+<body>
+<th:block layout:fragment="content">
+
+    <div class="message" th:if="${message != null}">
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+            </div>
+            <div class="panel-body">
+                <span th:text="${message}"></span>
+            </div>
+        </div>
+   </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Utility Operations</div>
+        <div class="panel-body">
+            <!--<a class="btn btn-info" th:href="${'/util/newhost'}">Add new Host</a>-->
+            <a class="btn btn-info" th:href="${'/util/cleanup'}">Cleanup Hosts</a>
+            <a class="btn btn-danger" th:href="${'/util/killall'}">Kill all Services</a>
+        </div>
+    </div>
+
+
+    <th:block th:unless="${#arrays.length(tasks) == 0}">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">Current Streaming Tasks
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover nohead">
+                    <tbody>
+                        <tr>
+                            <th class="vertmiddle col-md-2">Type</th>
+                            <th class="vertmiddle col-md-3">Pattern</th>
+                            <th class="vertmiddle col-md-3">Description</th>
+                            <th class="vertmiddle col-md-3">Progress</th>
+                            <th class="vertmiddle col-md-1">
+                                <div class="center-block">
+                                    Actions
+                                </div>
+                            </th>
+                        </tr>
+                        <tr th:each="task : ${tasks}">
+                            <td class="vertmiddle col-md-2" th:text="${task.getJobName()}"></td>
+                            <td class="vertmiddle col-md-3" th:text="${task.getJobGroup()}"></td>
+                            <td class="vertmiddle col-md-3" th:text="${task.getDescription()}"></td>
+                            <td class="vertmiddle col-md-3">
+                                <div class="progress">
+                                <div class="progress-bar progress-bar-striped active" role="progressbar" th:attr="aria-valuenow=${task.getProgress()}" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" th:style="'width: ' + ${task.getProgress()} + '%;'" style="width: 45%">
+                                    <span class="sr-only">45% Complete</span>
+                                </div>
+                                </div>
+                            </td>
+                            <td class="vertmiddle col-md-1">
+                                <div class="pull-right">
+                                    <a class="btn btn-danger" th:href="${'/killtask/' + task.getJobGroup() + '/' + task.getJobName()  }">Kill</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </th:block>
+
+    <div class="emptystate" th:if="${#arrays.length(tasks) == 0}">
+        <div class="emptystate-text">There are currently no streaming tasks.</div>
+    </div>
+
+</th:block>
+
+</body>
+</html>

@@ -1,4 +1,4 @@
-package vispDataProvider;
+package vispDataProvider.util;
 
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +14,6 @@ import java.util.Map;
 public class MyScheduler {
     @Autowired
     public SchedulerFactoryBean schedulerFactoryBean;
-
-
-    //TODO have look at https://gist.github.com/jelies/5085593
 
     @Value("${spring.rabbitmq.host}")
     private String RABBITMQ_HOST;
@@ -46,18 +43,23 @@ public class MyScheduler {
         map.put("user", rabbitmqUsername);
         map.put("password", rabbitmqPassword);
 
+        //TODO encode name/pattern somehow
+
 
         //TODO get data from
 
         JobDetail jobDetail = JobBuilder.newJob(PeerJMachineDataProvider.class)
                 .withIdentity("job1", "group1")
                 .setJobData(new JobDataMap(map))
+                .withDescription("blabla")
                 .build();
 
         SimpleScheduleBuilder scheduleBuilder1 = SimpleScheduleBuilder.
-                simpleSchedule().
-                withIntervalInMilliseconds(frequency)
+                simpleSchedule()
+                .withIntervalInMinutes(1)
                 .withRepeatCount(iterations);
+
+        //withIntervalInMilliseconds(frequency)
 
 
         SimpleTrigger trigger = TriggerBuilder.newTrigger()
