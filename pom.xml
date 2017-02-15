@@ -150,12 +150,9 @@
 
 	<repositories>
 		<repository>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<id>bintray-chochreiner-VISP</id>
-			<name>bintray</name>
-			<url>http://dl.bintray.com/chochreiner/VISP</url>
+			<id>central</id>
+			<name>infosys-maven-releases</name>
+			<url>http://lilith.infosys.tuwien.ac.at:8081/artifactory/libs-release-local</url>
 		</repository>
 	</repositories>
 
