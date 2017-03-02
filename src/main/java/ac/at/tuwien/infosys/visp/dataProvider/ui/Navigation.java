@@ -12,7 +12,6 @@ public class Navigation {
         return Arrays.asList(
                 new NavEntry("/", "index", "Tasks"),
                 new NavEntry("/newTask", "newTask", "Create Task"),
-                new NavEntry("/topology", "topology", "Topology Upload"),
                 new NavEntry("/configuration", "configuration", "Configuration"),
                 new NavEntry("/about", "about", "About"));
 
