@@ -52,11 +52,11 @@ public class UtilController {
     public String run(Model model) {
 
         CreateTaskForm taskform = new CreateTaskForm();
+        taskform.setFrequency(500);
+        taskform.setIterations(10000);
 
         model.addAttribute("types", presets.getTypes());
         model.addAttribute("patterns", presets.getPatterns());
-        model.addAttribute("frequency", 1000);
-        model.addAttribute("iterations", 10);
         model.addAttribute(taskform);
 
         model.addAttribute("message", null);
