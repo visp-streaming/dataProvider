@@ -25,6 +25,8 @@
 		<quartz.version>2.2.3</quartz.version>
 		<joda.version>2.9.4</joda.version>
 		<webjars.version>3.3.6</webjars.version>
+		<jackson.version>2.6.0</jackson.version>
+		<visp.common.version>0.2-SNAPSHOT</visp.common.version>
 	</properties>
 
 
@@ -82,25 +84,25 @@
 			<artifactId>spring-boot-starter-amqp</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.6.0</version>
+			<version>${jackson.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
-			<version>2.6.0</version>
+			<version>${jackson.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
-			<version>2.6.0</version>
+			<version>${jackson.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
 
 		<dependency>
 			<groupId>org.webjars</groupId>
@@ -111,7 +113,7 @@
 		<dependency>
 			<groupId>ac.at.tuwien.infosys.visp</groupId>
 			<artifactId>common</artifactId>
-			<version>0.1</version>
+			<version>${visp.common.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -127,7 +129,7 @@
 				<artifactId>docker-maven-plugin</artifactId>
 				<version>0.4.13</version>
 				<configuration>
-					<imageName>chochreiner/dataprovider</imageName>
+					<imageName>vispstreaming/dataprovider</imageName>
 					<forceTags>true</forceTags>
 					<imageTags>
 						<imageTag>latest</imageTag>
