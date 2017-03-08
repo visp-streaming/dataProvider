@@ -154,6 +154,11 @@
 			<name>infosys-maven-releases</name>
 			<url>http://repo.infosys.tuwien.ac.at/artifactory/libs-release</url>
 		</repository>
+        <repository>
+            <id>infosys-snapshots</id>
+            <name>infosys-maven-snapshots</name>
+            <url>https://repo.infosys.tuwien.ac.at/artifactory/libs-snapshot</url>
+        </repository>  		
 	</repositories>
 
 </project>

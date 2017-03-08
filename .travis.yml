@@ -5,6 +5,9 @@ jdk:
 dist: trusty
 sudo: false  
 
+before_install:
+  - rm ~/.m2/settings.xml
+
 notifications:
   slack: visp-streaming:D28xDCab6AHFtJGOcOqh5kCG
   
