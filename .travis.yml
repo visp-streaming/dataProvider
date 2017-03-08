@@ -4,4 +4,7 @@ jdk:
 
 dist: trusty
 sudo: false  
+
+notifications:
+  slack: visp-streaming:D28xDCab6AHFtJGOcOqh5kCG
   
