@@ -6,6 +6,16 @@
 <body>
 <th:block layout:fragment="content">
 
+    <div class="message" th:if="${message != null}">
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+            </div>
+            <div class="panel-body">
+                <span th:text="${message}"></span>
+            </div>
+        </div>
+    </div>
+
     <div class="panel panel-default">
         <div class="panel-heading">Create new Task</div>
         <div class="panel-body">

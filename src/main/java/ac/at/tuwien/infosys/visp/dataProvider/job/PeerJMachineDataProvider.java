@@ -8,8 +8,14 @@ import ac.at.tuwien.infosys.visp.dataProvider.dataSender.RabbitMQSender;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import org.apache.commons.io.FileUtils;
 import org.joda.time.DateTime;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -18,6 +24,8 @@ import java.util.concurrent.ThreadLocalRandom;
 public class PeerJMachineDataProvider extends DataGeneratorJob {
 
     protected RabbitMQSender sender;
+
+    private Integer offset = 0;
 
     public void customDataGeneration() {
         sender = new RabbitMQSender(host, user, password);
@@ -120,11 +128,12 @@ public class PeerJMachineDataProvider extends DataGeneratorJob {
                 md.setDefectiveUnits(Math.abs(ThreadLocalRandom.current().nextInt(0, 2) - md.getProducedUnits()));
             }
 
-            ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
             Message msg3 = null;
             try {
-                msg3 = new Message("initialmachinedata", ow.writeValueAsString(md));
-            } catch (JsonProcessingException e) {
+                byte[] imageBytes = FileUtils.readFileToByteArray(new File(generateImage(md)));
+                msg3 = new Message("initialmachinedata", Base64.getEncoder().encodeToString(imageBytes));
+
+            } catch (IOException e) {
                 e.printStackTrace();
             }
             ConnectionThread con3 = new ConnectionThread(sender, msg3, "sourcemachinedata");
@@ -134,4 +143,50 @@ public class PeerJMachineDataProvider extends DataGeneratorJob {
         jdMap.put("dateTimeMachineData", dt.toString());
 
     }
+
+    private String generateImage(MachineData md) throws IOException {
+        offset = 0;
+
+        String script = "#!/bin/bash \n";
+        script += "convert -size 630x250 xc:white -font verdana -pointsize 17 ";
+        script += addText("assetID", md.getAssetID());
+        script += addText("machinetype", md.getMachineType());
+        script += addText("location", md.getLocation());
+        script += addText("producedunits", String.valueOf(md.getProducedUnits()));
+        script += addText("defectiveunits", String.valueOf(md.getDefectiveUnits()));
+        script += addText("plannedproductiontime", String.valueOf(md.getPlannedProductionTime()));
+        script += addText("active", md.getActive());
+        script += addText("timestamp", md.getTimestamp());
+
+        File imageFile = File.createTempFile("generatedImage", ".png");
+
+        script += imageFile.getAbsolutePath();
+
+        File scriptFile = File.createTempFile("generationscript", ".sh");
+
+        try {
+            OutputStream os = new FileOutputStream(scriptFile);
+            os.write(script.getBytes(), 0, script.length());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Runtime.getRuntime().exec("chmod 777 " + scriptFile.getAbsolutePath());
+
+        try {
+            Process pr = Runtime.getRuntime().exec("" + scriptFile.getAbsolutePath());
+            pr.waitFor();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return imageFile.getAbsolutePath();
+    }
+
+    private String addText(String identifier, String value) {
+        offset += 25;
+        return "-fill black -draw \"text 10," + offset + " '" + identifier + ":" + "'\" " +
+                " -draw \"text 220," + offset + " '" + value + "'\" ";
+    }
+
+
 }

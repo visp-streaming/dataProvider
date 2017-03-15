@@ -59,7 +59,12 @@ public class UtilController {
         model.addAttribute("patterns", presets.getPatterns());
         model.addAttribute(taskform);
 
-        model.addAttribute("message", null);
+        if (ecs.getConfiguration().getUri() == null) {
+            model.addAttribute("message", "The URI of the receiving endpoint needs to be configured.");
+        } else {
+            model.addAttribute("message", null);
+        }
+
         return "createTask";
     }
 
