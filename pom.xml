@@ -25,7 +25,7 @@
 		<quartz.version>2.2.3</quartz.version>
 		<joda.version>2.9.4</joda.version>
 		<webjars.version>3.3.6</webjars.version>
-		<jackson.version>2.6.0</jackson.version>
+		<jackson.version>2.9.0.pr1</jackson.version>
 		<apache.commons.io.version>2.5</apache.commons.io.version>
 		<visp.common.version>0.2-SNAPSHOT</visp.common.version>
 	</properties>
