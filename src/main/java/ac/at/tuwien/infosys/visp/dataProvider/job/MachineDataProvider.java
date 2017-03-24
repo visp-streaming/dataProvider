@@ -15,13 +15,15 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class PeerJMachineDataProvider extends DataGeneratorJob {
+public class MachineDataProvider extends DataGeneratorJob {
 
     protected RabbitMQSender sender;
 
@@ -130,9 +132,10 @@ public class PeerJMachineDataProvider extends DataGeneratorJob {
 
             Message msg3 = null;
             try {
-                byte[] imageBytes = FileUtils.readFileToByteArray(new File(generateImage(md)));
+                String generatedImagePath = generateImage(md);
+                byte[] imageBytes = FileUtils.readFileToByteArray(new File(generatedImagePath));
                 msg3 = new Message("initialmachinedata", Base64.getEncoder().encodeToString(imageBytes));
-
+                Files.deleteIfExists(Paths.get(generatedImagePath));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -148,7 +151,7 @@ public class PeerJMachineDataProvider extends DataGeneratorJob {
         offset = 0;
 
         String script = "#!/bin/bash \n";
-        script += "convert -size 630x250 xc:white -font verdana -pointsize 17 ";
+        script += "convert -size 800x250 xc:white -font verdana -pointsize 25 ";
         script += addText("assetID", md.getAssetID());
         script += addText("machinetype", md.getMachineType());
         script += addText("location", md.getLocation());
@@ -179,13 +182,15 @@ public class PeerJMachineDataProvider extends DataGeneratorJob {
             e.printStackTrace();
         }
 
+        scriptFile.delete();
+
         return imageFile.getAbsolutePath();
     }
 
     private String addText(String identifier, String value) {
         offset += 25;
         return "-fill black -draw \"text 10," + offset + " '" + identifier + ":" + "'\" " +
-                " -draw \"text 220," + offset + " '" + value + "'\" ";
+                " -draw \"text 333," + offset + " '" + value + "'\" ";
     }
 
 

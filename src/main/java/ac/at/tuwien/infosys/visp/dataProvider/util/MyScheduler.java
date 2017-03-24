@@ -1,6 +1,6 @@
 package ac.at.tuwien.infosys.visp.dataProvider.util;
 
-import ac.at.tuwien.infosys.visp.dataProvider.job.PeerJMachineDataProvider;
+import ac.at.tuwien.infosys.visp.dataProvider.job.MachineDataProvider;
 import ac.at.tuwien.infosys.visp.dataProvider.job.SequentialWaitGeneratorJob;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class MyScheduler {
         JobDetail jobDetail = JobBuilder.newJob(SequentialWaitGeneratorJob.class).build();
 
         if (type.equals("Machine Data")) {
-            jobDetail = JobBuilder.newJob(PeerJMachineDataProvider.class)
+            jobDetail = JobBuilder.newJob(MachineDataProvider.class)
                     .withIdentity(type + "-" + pattern, UUID.randomUUID().toString())
                     .setJobData(new JobDataMap(map))
                     .withDescription("")
