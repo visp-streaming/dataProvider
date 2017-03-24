@@ -9,6 +9,8 @@ import org.quartz.JobExecutionContext;
 import org.quartz.PersistJobDataAfterExecution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageProperties;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 @PersistJobDataAfterExecution
@@ -76,5 +78,26 @@ public abstract class DataGeneratorJob extends QuartzJobBean {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Message createMessage(String type, String payload) {
+        MessageProperties props = new MessageProperties();
+        props.setHeader("type", type);
+        Message message = new Message(payload.getBytes(), props);
+        return message;
+    }
+
+    public Message createMessage(String type, byte[] payload) {
+        MessageProperties props = new MessageProperties();
+        props.setHeader("type", type);
+        Message message = new Message(payload, props);
+        return message;
+    }
+
+    public Message createEmptyMessage() {
+        MessageProperties props = new MessageProperties();
+        props.setHeader("type", "empty");
+        Message message = new Message(null, props);
+        return message;
     }
 }

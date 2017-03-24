@@ -1,7 +1,7 @@
 package ac.at.tuwien.infosys.visp.dataProvider.dataSender;
 
 
-import ac.at.tuwien.infosys.visp.common.Message;
+import org.springframework.amqp.core.Message;
 
 public interface MessageSender {
 

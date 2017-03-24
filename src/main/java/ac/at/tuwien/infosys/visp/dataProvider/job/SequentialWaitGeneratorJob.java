@@ -1,8 +1,8 @@
 package ac.at.tuwien.infosys.visp.dataProvider.job;
 
 
-import ac.at.tuwien.infosys.visp.common.Message;
 import ac.at.tuwien.infosys.visp.dataProvider.dataSender.RabbitMQSender;
+import org.springframework.amqp.core.Message;
 
 public class SequentialWaitGeneratorJob extends DataGeneratorJob {
 
@@ -12,7 +12,7 @@ public class SequentialWaitGeneratorJob extends DataGeneratorJob {
         sender = new RabbitMQSender(host, user, password);
 
         for (int i = 0; i<state.getAmount(); i++) {
-            Message msg = new Message("wait", "step1");
+            Message msg = createMessage("wait", "step1");
             ConnectionThread con1 = new ConnectionThread(sender, msg, "source");
             new Thread(con1).start();
         }

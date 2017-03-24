@@ -1,6 +1,5 @@
 package ac.at.tuwien.infosys.visp.dataProvider.job;
 
-import ac.at.tuwien.infosys.visp.common.Message;
 import ac.at.tuwien.infosys.visp.common.peerJ.Availability;
 import ac.at.tuwien.infosys.visp.common.peerJ.MachineData;
 import ac.at.tuwien.infosys.visp.common.peerJ.Temperature;
@@ -10,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.apache.commons.io.FileUtils;
 import org.joda.time.DateTime;
+import org.springframework.amqp.core.Message;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -66,9 +65,9 @@ public class MachineDataProvider extends DataGeneratorJob {
                 temp.setTemperature((int) (Math.random() * 102));
 
                 ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-                Message msg1 = null;
+                Message msg1 = createEmptyMessage();
                 try {
-                    msg1 = new Message("temperature", ow.writeValueAsString(temp));
+                    msg1 = createMessage("temperature", ow.writeValueAsBytes(temp));
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
                 }
@@ -93,7 +92,7 @@ public class MachineDataProvider extends DataGeneratorJob {
 
                 Message msg2 = null;
                 try {
-                    msg2 = new Message("availability", ow.writeValueAsString(av));
+                    msg2 = createMessage("availability", ow.writeValueAsBytes(av));
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
                 }
@@ -134,7 +133,7 @@ public class MachineDataProvider extends DataGeneratorJob {
             try {
                 String generatedImagePath = generateImage(md);
                 byte[] imageBytes = FileUtils.readFileToByteArray(new File(generatedImagePath));
-                msg3 = new Message("initialmachinedata", Base64.getEncoder().encodeToString(imageBytes));
+                msg3 = createMessage("initialmachinedata", imageBytes);
                 Files.deleteIfExists(Paths.get(generatedImagePath));
             } catch (IOException e) {
                 e.printStackTrace();

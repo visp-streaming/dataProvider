@@ -1,8 +1,8 @@
 package ac.at.tuwien.infosys.visp.dataProvider.job;
 
 
-import ac.at.tuwien.infosys.visp.common.Message;
 import ac.at.tuwien.infosys.visp.dataProvider.dataSender.MessageSender;
+import org.springframework.amqp.core.Message;
 
 public class ConnectionThread implements Runnable {
 

@@ -1,6 +1,6 @@
 package ac.at.tuwien.infosys.visp.dataProvider.dataSender;
 
-import ac.at.tuwien.infosys.visp.common.Message;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
@@ -25,7 +25,7 @@ public class RabbitMQSender implements MessageSender {
         RabbitTemplate template = new RabbitTemplate(connectionFactory);
         template.setRoutingKey(queue);
         template.setQueue(queue);
-        template.convertAndSend(queue, queue, msg);
+        template.send(queue, queue, msg);
 
         //TODO close connection after template is sent
 

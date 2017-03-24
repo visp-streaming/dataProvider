@@ -1,12 +1,12 @@
 package ac.at.tuwien.infosys.visp.dataProvider.job;
 
 
-import ac.at.tuwien.infosys.visp.common.Message;
 import ac.at.tuwien.infosys.visp.common.cloud.Location;
 import ac.at.tuwien.infosys.visp.dataProvider.dataSender.RabbitMQSender;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.joda.time.DateTime;
+import org.springframework.amqp.core.Message;
 
 import java.sql.*;
 
@@ -47,7 +47,7 @@ public class TaxiDataGeneratorJob extends DataGeneratorJob {
                 location = new Location(resultSet.getString("id"), resultSet.getString("taxiId"), resultSet.getString("time"), resultSet.getString("latitude"), resultSet.getString("longitude"));
 
                 ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-                Message msg = new Message(ow.writeValueAsString(location));
+                Message msg = createMessage("location", ow.writeValueAsBytes(location));
 
                 ConnectionThread con1 = new ConnectionThread(sender, msg, "source");
                 new Thread(con1).start();
