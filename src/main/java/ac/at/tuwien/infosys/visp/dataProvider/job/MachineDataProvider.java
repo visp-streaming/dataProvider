@@ -173,11 +173,13 @@ public class MachineDataProvider extends DataGeneratorJob {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Runtime.getRuntime().exec("chmod 777 " + scriptFile.getAbsolutePath());
 
         try {
-            Process pr = Runtime.getRuntime().exec("" + scriptFile.getAbsolutePath());
-            pr.waitFor();
+            Process pr1 = Runtime.getRuntime().exec("chmod 777 " + scriptFile.getAbsolutePath());
+            pr1.waitFor();
+
+            Process pr2 = Runtime.getRuntime().exec("" + scriptFile.getAbsolutePath());
+            pr2.waitFor();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
