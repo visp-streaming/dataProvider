@@ -151,7 +151,7 @@ public class MachineDataProvider extends DataGeneratorJob {
         offset = 0;
 
         String script = "#!/bin/bash \n";
-        script += "convert -size 800x250 xc:white -font verdana -pointsize 25 ";
+        script += "convert -size 850x300 xc:white  -pointsize 30 ";
         script += addText("assetID", md.getAssetID());
         script += addText("machinetype", md.getMachineType());
         script += addText("location", md.getLocation());
@@ -170,6 +170,7 @@ public class MachineDataProvider extends DataGeneratorJob {
         try {
             OutputStream os = new FileOutputStream(scriptFile);
             os.write(script.getBytes(), 0, script.length());
+            os.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -188,9 +189,8 @@ public class MachineDataProvider extends DataGeneratorJob {
     }
 
     private String addText(String identifier, String value) {
-        offset += 25;
-        return "-fill black -draw \"text 10," + offset + " '" + identifier + ":" + "'\" " +
-                " -draw \"text 333," + offset + " '" + value + "'\" ";
+        offset += 32;
+        return "-fill black -draw \"text 10," + offset + " '" + identifier + "  :  " + value + "'\" ";
     }
 
 
