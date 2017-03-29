@@ -4,6 +4,8 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
+import java.util.Date;
+
 public class RabbitMQSender implements MessageSender {
 
     private String host;
@@ -17,6 +19,8 @@ public class RabbitMQSender implements MessageSender {
     }
 
     public void sendMessage(Message msg, String queue) {
+
+        msg.getMessageProperties().setTimestamp(new Date());
 
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory(host);
         connectionFactory.setUsername(username);
