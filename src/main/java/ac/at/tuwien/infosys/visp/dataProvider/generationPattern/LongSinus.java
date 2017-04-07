@@ -10,25 +10,25 @@ public class LongSinus implements GenerationPattern{
         if (state.getDirection().equals("up")) {
             if (state.getIteration()>30) {
                 if (state.getAmount()<10) {
-                    state.setAmount((state.getAmount() + 1));
+                    state.increaseAmount();
                     state.setIteration(1);
                 } else {
-                    state.setAmount((state.getAmount() - 1));
+                    state.decreaseAmount();
                     state.setIteration(1);
                     state.setDirection("down");
                 }
             } else {
-                state.setIteration((state.getIteration() + 1));
+                state.increaseIteration();
             }
         }
 
         if (state.getDirection().equals("down")) {
             if (state.getIteration()>30) {
                 if (state.getAmount()>2) {
-                    state.setAmount((state.getAmount() - 1));
+                    state.decreaseAmount();
                     state.setIteration(1);
                 } else {
-                    state.setAmount((state.getAmount() + 1));
+                    state.increaseAmount();
                     state.setIteration(1);
                     state.setDirection("up");
                 }

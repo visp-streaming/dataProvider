@@ -31,9 +31,6 @@ public class RabbitMQSender implements MessageSender {
         template.setQueue(queue);
         template.send(queue, queue, msg);
 
-        //TODO close connection after template is sent
-
-        //TODO redeploy topology
         connectionFactory.resetConnection();
         connectionFactory.destroy();
 

@@ -26,6 +26,22 @@ public class GenerationState {
         overallCounter = 0;
     }
 
+    public void increaseIteration() {
+        this.iteration = iteration + 1;
+    }
+
+    public void increaseAmount() {
+        this.amount = amount + 1;
+    }
+
+    public void decreaseAmount() {
+        this.amount = amount - 1;
+    }
+
+    public void increaseOverallCounter() {
+        this.overallCounter = overallCounter + 1;
+    }
+
     public String getDirection() {
         return direction;
     }

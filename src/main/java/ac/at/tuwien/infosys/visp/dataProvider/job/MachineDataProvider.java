@@ -28,6 +28,7 @@ public class MachineDataProvider extends DataGeneratorJob {
 
     private Integer offset = 0;
 
+
     public void customDataGeneration() {
         sender = new RabbitMQSender(host, user, password);
 
@@ -40,11 +41,11 @@ public class MachineDataProvider extends DataGeneratorJob {
         //needs to be a multiple of 10
         Integer reportingInterval = 60;
 
-        Map<String, String> assets = new HashMap<String, String>() {{
-            put("m1", "location1");
-            put("m2", "location1");
-            put("m3", "location2");
-        }};
+        Map<String, String> assets = new HashMap<String, String>();
+
+        for (int i = 0; i<state.getAmount();i++) {
+            assets.put("m" + i, "location" + i);
+        }
 
         for (Map.Entry<String, String> entry : assets.entrySet()) {
 
