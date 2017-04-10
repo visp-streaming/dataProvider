@@ -14,6 +14,7 @@ public class PatternSelector {
         GenerationPattern pattern = null;
 
         switch(generationPattern) {
+            case "Sinus": pattern = new Sinus(); break;
             case "Long Sinus": pattern = new LongSinus(); break;
             case "Constant": pattern = new Constant(); break;
             case "Linear Increase": pattern = new LinearIncrease(); break;

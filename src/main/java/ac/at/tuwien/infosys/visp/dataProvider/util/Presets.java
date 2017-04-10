@@ -21,6 +21,7 @@ public class Presets {
         patterns.add("Constant");
         patterns.add("Linear Increase");
         patterns.add("Long Sinus");
+        patterns.add("Sinus");
         patterns.add("Pyramid");
         return patterns;
     }

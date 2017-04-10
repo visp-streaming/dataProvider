@@ -3,12 +3,12 @@ package ac.at.tuwien.infosys.visp.dataProvider.generationPattern;
 
 import ac.at.tuwien.infosys.visp.dataProvider.entities.GenerationState;
 
-public class LongSinus implements GenerationPattern{
+public class Sinus implements GenerationPattern{
 
     public GenerationState iterate(GenerationState state) {
 
         if (state.getDirection().equals("up")) {
-            if (state.getIteration()>500) {
+            if (state.getIteration()>100) {
                 if (state.getAmount()<10) {
                     state.increaseAmount();
                     state.setIteration(1);
@@ -23,7 +23,7 @@ public class LongSinus implements GenerationPattern{
         }
 
         if (state.getDirection().equals("down")) {
-            if (state.getIteration()>500) {
+            if (state.getIteration()>100) {
                 if (state.getAmount()>2) {
                     state.decreaseAmount();
                     state.setIteration(1);
