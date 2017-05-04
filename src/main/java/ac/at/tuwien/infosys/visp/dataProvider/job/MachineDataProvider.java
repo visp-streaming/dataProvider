@@ -52,10 +52,12 @@ public class MachineDataProvider extends DataGeneratorJob {
             String assetID = entry.getKey();
             String location = entry.getValue();
 
-            Integer steps = reportingInterval / 10;
+            Integer stepsAvailability = 5;
+
+            Integer stepsTemperature = 20;
             Integer intermediateIntervall = 0;
 
-            for (int i = 0; i < steps; i++) {
+            for (int i = 0; i < stepsTemperature; i++) {
                 //generate Temperature Data
 
                 Temperature temp = new Temperature();
@@ -70,12 +72,13 @@ public class MachineDataProvider extends DataGeneratorJob {
                 try {
                     msg1 = createMessage("temperature", ow.writeValueAsBytes(temp));
                 } catch (JsonProcessingException e) {
-                    e.printStackTrace();
                 }
                 ConnectionThread con1 = new ConnectionThread(sender, msg1, "sourcetemperature");
                 new Thread(con1).start();
+            }
 
-                //generate Availability Data
+            for (int i = 0; i < stepsAvailability; i++) {
+                    //generate Availability Data
                 Availability av = new Availability();
                 dt = dt.plusSeconds(intermediateIntervall);
                 av.setTimestamp(dt.toString());
@@ -91,11 +94,11 @@ public class MachineDataProvider extends DataGeneratorJob {
                     }
                 }
 
+                ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
                 Message msg2 = null;
                 try {
                     msg2 = createMessage("availability", ow.writeValueAsBytes(av));
                 } catch (JsonProcessingException e) {
-                    e.printStackTrace();
                 }
                 ConnectionThread con2 = new ConnectionThread(sender, msg2, "sourceavailability");
                 new Thread(con2).start();
@@ -137,7 +140,6 @@ public class MachineDataProvider extends DataGeneratorJob {
                 msg3 = createMessage("initialmachinedata", imageBytes);
                 Files.deleteIfExists(Paths.get(generatedImagePath));
             } catch (IOException e) {
-                e.printStackTrace();
             }
             ConnectionThread con3 = new ConnectionThread(sender, msg3, "sourcemachinedata");
             new Thread(con3).start();
