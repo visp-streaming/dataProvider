@@ -41,20 +41,21 @@ public class MachineDataProvider extends DataGeneratorJob {
         //needs to be a multiple of 10
         Integer reportingInterval = 60;
 
-        Map<String, String> assets = new HashMap<String, String>();
+        Map<String, String> assets = new HashMap<>();
 
         for (int i = 0; i<state.getAmount();i++) {
             assets.put("m" + i, "location" + i);
         }
 
         for (Map.Entry<String, String> entry : assets.entrySet()) {
+            dt = new DateTime(jdMap.get("dateTimeMachineData").toString());
 
             String assetID = entry.getKey();
             String location = entry.getValue();
 
             Integer stepsAvailability = 5;
 
-            Integer stepsTemperature = 20;
+            Integer stepsTemperature = 10;
             Integer intermediateIntervall = 0;
 
             for (int i = 0; i < stepsTemperature; i++) {
