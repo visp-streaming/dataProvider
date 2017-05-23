@@ -52,8 +52,8 @@ public class UtilController {
     public String run(Model model) {
 
         CreateTaskForm taskform = new CreateTaskForm();
-        taskform.setFrequency(500);
-        taskform.setIterations(10000);
+        taskform.setFrequency(480);
+        taskform.setIterations(20000);
 
         model.addAttribute("types", presets.getTypes());
         model.addAttribute("patterns", presets.getPatterns());

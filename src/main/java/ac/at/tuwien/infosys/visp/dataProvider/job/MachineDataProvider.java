@@ -44,11 +44,13 @@ public class MachineDataProvider extends DataGeneratorJob {
         Map<String, String> assets = new HashMap<>();
 
         for (int i = 0; i<state.getAmount();i++) {
-            assets.put("m" + i, "location" + i);
+            assets.put("ma" + i, "location" + i);
         }
 
         for (Map.Entry<String, String> entry : assets.entrySet()) {
-            dt = new DateTime(jdMap.get("dateTimeMachineData").toString());
+            if (jdMap.get("lastTime") != null) {
+                dt = new DateTime(jdMap.get("dateTimeMachineData").toString());
+            }
 
             String assetID = entry.getKey();
             String location = entry.getValue();

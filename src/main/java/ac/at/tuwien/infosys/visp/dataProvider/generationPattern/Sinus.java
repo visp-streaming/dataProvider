@@ -7,37 +7,27 @@ public class Sinus implements GenerationPattern{
 
     public GenerationState iterate(GenerationState state) {
 
+        state.increaseOverallCounter();
+
         if (state.getDirection().equals("up")) {
-            if (state.getIteration()>100) {
-                if (state.getAmount()<10) {
-                    state.increaseAmount();
-                    state.setIteration(1);
-                } else {
-                    state.decreaseAmount();
-                    state.setIteration(1);
+            if (state.getIteration()>1000) {
                     state.setDirection("down");
-                }
-            } else {
-                state.increaseIteration();
+                    state.setAmount(3);
+                    state.setIteration(1);
+                    return state;
             }
         }
 
         if (state.getDirection().equals("down")) {
-            if (state.getIteration()>100) {
-                if (state.getAmount()>2) {
-                    state.decreaseAmount();
-                    state.setIteration(1);
-                } else {
-                    state.increaseAmount();
-                    state.setIteration(1);
-                    state.setDirection("up");
-                }
-            } else {
-                state.setIteration((state.getIteration() + 1));
+            if (state.getIteration()>1000) {
+                state.setDirection("up");
+                state.setAmount(1);
+                state.setIteration(1);
+                return state;
             }
         }
-        state.setOverallCounter(state.getOverallCounter() + 1);
 
+        state.increaseIteration();
         return state;
     }
 }
