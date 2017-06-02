@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.2.RELEASE</version>
+		<version>1.5.3.RELEASE</version>
 		<relativePath/>
 	</parent>
 
@@ -22,10 +22,10 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
 		<h2.version>1.4.193</h2.version>
-		<quartz.version>2.2.3</quartz.version>
-		<joda.version>2.9.4</joda.version>
-		<webjars.version>3.3.6</webjars.version>
-		<jackson.version>2.9.0.pr1</jackson.version>
+		<quartz.version>2.3.0</quartz.version>
+		<joda.version>2.9.9</joda.version>
+		<webjars.version>3.3.7-1</webjars.version>
+		<jackson.version>2.9.0.pr3</jackson.version>
 		<apache.commons.io.version>2.5</apache.commons.io.version>
 		<visp.common.version>0.2-SNAPSHOT</visp.common.version>
 	</properties>
