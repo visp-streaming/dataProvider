@@ -3,7 +3,10 @@ jdk:
   - oraclejdk8
 
 dist: trusty
-sudo: false  
+sudo: required
+
+services:
+  - docker
 
 before_install:
   - rm ~/.m2/settings.xml
