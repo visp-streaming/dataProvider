@@ -38,8 +38,8 @@ public class UtilController {
     @RequestMapping("/")
     public String index(Model model) throws SchedulerException {
 
-        if (ecs.getConfiguration().getUri() == null) {
-            model.addAttribute("message", "The URI of the receiving endpoint needs to be configured.");
+        if (ecs.getConfiguration().getHost() == null) {
+            model.addAttribute("message", "The receiving endpoint needs to be configured.");
         } else {
             model.addAttribute("message", null);
         }
@@ -59,8 +59,8 @@ public class UtilController {
         model.addAttribute("patterns", presets.getPatterns());
         model.addAttribute(taskform);
 
-        if (ecs.getConfiguration().getUri() == null) {
-            model.addAttribute("message", "The URI of the receiving endpoint needs to be configured.");
+        if (ecs.getConfiguration().getHost() == null) {
+            model.addAttribute("message", "The receiving endpoint needs to be configured.");
         } else {
             model.addAttribute("message", null);
         }

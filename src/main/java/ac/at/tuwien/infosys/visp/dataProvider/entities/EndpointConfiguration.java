@@ -3,13 +3,13 @@ package ac.at.tuwien.infosys.visp.dataProvider.entities;
 
 public class EndpointConfiguration {
 
-    private String uri;
+    private String host;
     private String name;
     private String password;
 
 
-    public EndpointConfiguration(String uri, String name, String password) {
-        this.uri = uri;
+    public EndpointConfiguration(String host, String name, String password) {
+        this.host = host;
         this.name = name;
         this.password = password;
     }
@@ -17,12 +17,12 @@ public class EndpointConfiguration {
     public EndpointConfiguration() {
     }
 
-    public String getUri() {
-        return uri;
+    public String getHost() {
+        return host;
     }
 
-    public void setUri(String uri) {
-        this.uri = uri;
+    public void setHost(String host) {
+        this.host = host;
     }
 
     public String getName() {

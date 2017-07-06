@@ -26,7 +26,7 @@ public class MyScheduler {
 
         Map<String,Object> map = new HashMap<>();
         map.put("pattern", pattern);
-        map.put("host", ecs.getConfiguration().getUri());
+        map.put("host", ecs.getConfiguration().getHost());
         map.put("user", ecs.getConfiguration().getName());
         map.put("password", ecs.getConfiguration().getPassword());
 
