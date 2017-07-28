@@ -4,7 +4,7 @@
 
 	<groupId>ac.at.tuwien.infosys.visp</groupId>
 	<artifactId>dataProvider</artifactId>
-	<version>0.1</version>
+	<version>0.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>streamingDataProvider</name>
@@ -35,7 +35,7 @@
 		<connection>scm:git:https://github.com/visp-streaming/dataProvider</connection>
 		<developerConnection>scm:git:git@github.com:visp-streaming/dataProvider</developerConnection>
 		<url>https://github.com/visp-streaming/dataProvider</url>
-		<tag>dataProvider-0.1</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<dependencies>
