@@ -1,6 +1,6 @@
 FROM jeanblanchard/java:8
 MAINTAINER Christoph Hochreiner <ch.hochreiner@gmail.com>
-ADD target/dataProvider-0.1-SNAPSHOT.jar app.jar
+ADD target/dataProvider.jar app.jar
 RUN apk --update add imagemagick && \
     rm -rf /var/cache/apk/*
 RUN sh -c 'touch /app.jar'
