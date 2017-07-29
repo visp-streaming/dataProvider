@@ -160,6 +160,17 @@
 
 	<repositories>
 		<repository>
+			<id>bintray</id>
+			<url>http://dl.bintray.com/chochreiner/visp</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<!-- TODO remove infosys repositories as soon as bintray proves to be reliable -->
+		<repository>
 			<id>infosys</id>
 			<name>infosys-maven-releases</name>
 			<url>http://repo.infosys.tuwien.ac.at/artifactory/libs-release</url>
