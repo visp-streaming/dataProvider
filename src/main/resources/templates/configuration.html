@@ -14,21 +14,35 @@
                 <div class="form-group">
                     <label for="host" class="col-sm-2 control-label">Host</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="host" name="host" th:field="*{host}" th:value="${endpointConfiguration.getHost()}"  />
+                        <input type="text" class="form-control" id="host" name="host" th:field="*{host}" th:value="${endpointConfiguration.host}"  />
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="name" class="col-sm-2 control-label">Username</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="name" name="name" th:field="*{name}" th:value="${endpointConfiguration.getName()}"  />
+                        <input type="text" class="form-control" id="name" name="name" th:field="*{name}" th:value="${endpointConfiguration.name}"  />
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="password" class="col-sm-2 control-label">Password</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="password" name="password" th:field="*{password}" th:value="${endpointConfiguration.getPassword()}" />
+                        <input type="text" class="form-control" id="password" name="password" th:field="*{password}" th:value="${endpointConfiguration.password}" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="slackchannel" class="col-sm-2 control-label">Slack-Channel</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="slackchannel" name="slackchannel" th:field="*{slackchannel}" th:value="${endpointConfiguration.slackchannel}" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="slacktoken" class="col-sm-2 control-label">Slack-Token</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="slacktoken" name="slacktoken" th:field="*{slacktoken}" th:value="${endpointConfiguration.slacktoken}" />
                     </div>
                 </div>
 

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -21,9 +22,6 @@ public class MyScheduler {
 
     @Autowired
     private EndpointConfigurationService ecs;
-
-    @Value("${bot}")
-    private String slackBot;
 
     public void scheduleJob(String type, String pattern, Integer frequency, Integer iterations) throws SchedulerException {
 
@@ -71,7 +69,9 @@ public class MyScheduler {
                 .withIdentity(UUID.randomUUID().toString(), UUID.randomUUID().toString())
                 .withSchedule(scheduleBuilder1).build();
 
-        scheduler.getListenerManager().addJobListener(new SlackJobListener("slacklistener", slackBot), KeyMatcher.keyEquals(jobDetail.getKey()));
+        if (ecs.getConfiguration().getSlacktoken() != "") {
+            scheduler.getListenerManager().addJobListener(new SlackJobListener("slacklistener", ecs.getConfiguration().getSlacktoken(), ecs.getConfiguration().getSlackchannel()), KeyMatcher.keyEquals(jobDetail.getKey()));
+        }
         scheduler.scheduleJob(jobDetail, trigger);
 
     }

@@ -16,13 +16,16 @@ public class SlackJobListener extends JobListenerSupport {
     private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
     private String name;
+    private String channel;
     private String token;
 
-    public SlackJobListener(String name, String token) {
+    public SlackJobListener(String name, String token, String channel) {
         this.name = name;
         this.token = token;
+        this.channel = channel;
     }
 
+    @Override
     public String getName() {
         return name;
     }
@@ -36,7 +39,7 @@ public class SlackJobListener extends JobListenerSupport {
         } catch (IOException e) {
             LOG.error(e.getMessage());
         }
-        SlackChannel channel = session.findChannelByName("evaluation"); //make sure bot is a member of the channel.
+        SlackChannel channel = session.findChannelByName(this.channel);
         session.sendMessage(channel, "Data Provider for task: " + context.getJobDetail().getKey() + "--" + context.getJobDetail().getDescription() + "has finished." );
     }
 }
