@@ -120,9 +120,9 @@
 		</dependency>
 
 		<dependency>
-			    <groupId>com.ullink.slack</groupId>
-			    <artifactId>simpleslackapi</artifactId>
-			    <version>${simpleslackapi.version}</version>
+			<groupId>com.ullink.slack</groupId>
+			<artifactId>simpleslackapi</artifactId>
+			<version>${simpleslackapi.version}</version>
 		</dependency>
 
 		<!-- required for simpleslackapi: https://github.com/Ullink/simple-slack-api/issues/197 -->
