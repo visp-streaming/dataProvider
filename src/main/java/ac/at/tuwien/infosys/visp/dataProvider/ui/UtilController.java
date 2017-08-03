@@ -13,10 +13,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class UtilController {
@@ -36,7 +36,9 @@ public class UtilController {
     private EndpointConfigurationService ecs;
 
     @RequestMapping("/")
-    public String index(Model model) throws SchedulerException {
+    public String index(@CookieValue("host") String host, @CookieValue("slacktoken") String slacktoken, Model model) throws SchedulerException {
+
+        ecs.storeFromCoockies(host, slacktoken);
 
         if (ecs.getConfiguration().getHost() == null) {
             model.addAttribute("message", "The receiving endpoint needs to be configured.");
@@ -81,21 +83,36 @@ public class UtilController {
 
 
     @RequestMapping("/configuration")
-    public String configuration(Model model) {
+    public String configuration(@CookieValue("host") String host, @CookieValue("slacktoken") String slacktoken, Model model) {
+
+        ecs.storeFromCoockies(host, slacktoken);
 
         model.addAttribute("endpointConfiguration", ecs.getConfiguration());
         model.addAttribute("message", null);
+
         return "configuration";
     }
 
     @RequestMapping(value="/configurationSaved", method= RequestMethod.POST)
-    public String configurationSaved(@ModelAttribute EndpointConfiguration form, Model model) throws SchedulerException {
+    public String configurationSaved(@ModelAttribute EndpointConfiguration form, Model model, HttpServletResponse response) throws SchedulerException {
 
         ecs.storeData(form);
 
 
         model.addAttribute("endpointConfiguration", ecs.getConfiguration());
         model.addAttribute("message", "The configuration has been updated.");
+
+        Cookie cookie1 = new Cookie("host", ecs.getConfiguration().getHost());
+        cookie1.setMaxAge(265 * 24 * 60 * 60);  // (s)
+        cookie1.setPath("/");
+
+        Cookie cookie2 = new Cookie("slacktoken", ecs.getConfiguration().getSlacktoken());
+        cookie2.setMaxAge(265 * 24 * 60 * 60);  // (s)
+        cookie2.setPath("/");
+
+        response.addCookie(cookie1);
+        response.addCookie(cookie2);
+
         return "configuration";
     }
 

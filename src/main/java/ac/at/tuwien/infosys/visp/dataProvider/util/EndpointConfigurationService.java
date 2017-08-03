@@ -20,6 +20,11 @@ public class EndpointConfigurationService {
         this.slacktoken = conf.getSlacktoken();
     }
 
+    public void storeFromCoockies(String host, String slacktoken) {
+        this.host = host;
+        this.slacktoken = slacktoken;
+    }
+
     public EndpointConfiguration getConfiguration() {
         return new EndpointConfiguration(host, name, password, slackchannel, slacktoken);
     }
