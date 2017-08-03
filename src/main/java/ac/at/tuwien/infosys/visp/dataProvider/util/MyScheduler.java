@@ -2,11 +2,13 @@ package ac.at.tuwien.infosys.visp.dataProvider.util;
 
 import ac.at.tuwien.infosys.visp.dataProvider.job.MachineDataProvider;
 import ac.at.tuwien.infosys.visp.dataProvider.job.SequentialWaitGeneratorJob;
+import ac.at.tuwien.infosys.visp.dataProvider.job.TaxiDataGeneratorJob;
 import org.quartz.*;
+import org.quartz.impl.matchers.KeyMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
-import ac.at.tuwien.infosys.visp.dataProvider.job.TaxiDataGeneratorJob;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +21,9 @@ public class MyScheduler {
 
     @Autowired
     private EndpointConfigurationService ecs;
+
+    @Value("${bot}")
+    private String slackBot;
 
     public void scheduleJob(String type, String pattern, Integer frequency, Integer iterations) throws SchedulerException {
 
@@ -66,6 +71,8 @@ public class MyScheduler {
                 .withIdentity(UUID.randomUUID().toString(), UUID.randomUUID().toString())
                 .withSchedule(scheduleBuilder1).build();
 
+        scheduler.getListenerManager().addJobListener(new SlackJobListener("slacklistener", slackBot), KeyMatcher.keyEquals(jobDetail.getKey()));
         scheduler.scheduleJob(jobDetail, trigger);
+
     }
 }
