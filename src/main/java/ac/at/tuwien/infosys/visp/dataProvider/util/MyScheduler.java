@@ -69,7 +69,7 @@ public class MyScheduler {
                 .withIdentity(UUID.randomUUID().toString(), UUID.randomUUID().toString())
                 .withSchedule(scheduleBuilder1).build();
 
-        if (ecs.getConfiguration().getSlacktoken() != "") {
+        if ((ecs.getConfiguration().getSlacktoken() != "") && (ecs.getConfiguration().getSlacktoken() != null)) {
             scheduler.getListenerManager().addJobListener(new SlackJobListener("slacklistener", ecs.getConfiguration().getSlacktoken(), ecs.getConfiguration().getSlackchannel()), KeyMatcher.keyEquals(jobDetail.getKey()));
         }
         scheduler.scheduleJob(jobDetail, trigger);
