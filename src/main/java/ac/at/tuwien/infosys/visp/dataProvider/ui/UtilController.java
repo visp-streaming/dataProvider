@@ -36,7 +36,7 @@ public class UtilController {
     private EndpointConfigurationService ecs;
 
     @RequestMapping("/")
-    public String index(@CookieValue(value = "host", defaultValue = "") String host, @CookieValue(value = "host", defaultValue = "") String slacktoken, Model model) throws SchedulerException {
+    public String index(@CookieValue(value = "host", defaultValue = "") String host, @CookieValue(value = "slacktoken", defaultValue = "") String slacktoken, Model model) throws SchedulerException {
 
         ecs.storeFromCoockies(host, slacktoken);
 
@@ -83,7 +83,7 @@ public class UtilController {
 
 
     @RequestMapping("/configuration")
-    public String configuration(@CookieValue(value = "host", defaultValue = "") String host, @CookieValue(value = "host", defaultValue = "") String slacktoken, Model model) {
+    public String configuration(@CookieValue(value = "host", defaultValue = "") String host, @CookieValue(value = "slacktoken", defaultValue = "") String slacktoken, Model model) {
 
         ecs.storeFromCoockies(host, slacktoken);
 
