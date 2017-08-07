@@ -3,15 +3,14 @@ package ac.at.tuwien.infosys.visp.dataProvider.util;
 import com.ullink.slack.simpleslackapi.SlackChannel;
 import com.ullink.slack.simpleslackapi.SlackSession;
 import com.ullink.slack.simpleslackapi.impl.SlackSessionFactory;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
-import org.quartz.listeners.JobListenerSupport;
+import org.quartz.Trigger;
+import org.quartz.listeners.SchedulerListenerSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-public class SlackJobListener extends JobListenerSupport {
+public class SlackSchedulerListener extends SchedulerListenerSupport {
 
     private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
@@ -19,19 +18,14 @@ public class SlackJobListener extends JobListenerSupport {
     private String channel;
     private String token;
 
-    public SlackJobListener(String name, String token, String channel) {
+    public SlackSchedulerListener(String name, String token, String channel) {
         this.name = name;
         this.token = token;
         this.channel = channel;
     }
 
     @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public void jobWasExecuted(JobExecutionContext context, JobExecutionException jobException) {
+    public void triggerFinalized(Trigger trigger) {
 
         SlackSession session = SlackSessionFactory.createWebSocketSlackSession(token);
         try {
@@ -40,6 +34,6 @@ public class SlackJobListener extends JobListenerSupport {
             LOG.error(e.getMessage());
         }
         SlackChannel channel = session.findChannelByName(this.channel);
-        session.sendMessage(channel, "Data Provider for task: " + context.getJobDetail().getKey() + "--" + context.getJobDetail().getDescription() + "has finished." );
+        session.sendMessage(channel, "Data Provider has finished.");
     }
 }

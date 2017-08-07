@@ -4,13 +4,10 @@ import ac.at.tuwien.infosys.visp.dataProvider.job.MachineDataProvider;
 import ac.at.tuwien.infosys.visp.dataProvider.job.SequentialWaitGeneratorJob;
 import ac.at.tuwien.infosys.visp.dataProvider.job.TaxiDataGeneratorJob;
 import org.quartz.*;
-import org.quartz.impl.matchers.KeyMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
 
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -70,7 +67,7 @@ public class MyScheduler {
                 .withSchedule(scheduleBuilder1).build();
 
         if ((ecs.getConfiguration().getSlacktoken() != "") && (ecs.getConfiguration().getSlacktoken() != null)) {
-            scheduler.getListenerManager().addJobListener(new SlackJobListener("slacklistener", ecs.getConfiguration().getSlacktoken(), ecs.getConfiguration().getSlackchannel()), KeyMatcher.keyEquals(jobDetail.getKey()));
+            scheduler.getListenerManager().addSchedulerListener(new SlackSchedulerListener("slacklistener", ecs.getConfiguration().getSlacktoken(), ecs.getConfiguration().getSlackchannel()));
         }
         scheduler.scheduleJob(jobDetail, trigger);
 
