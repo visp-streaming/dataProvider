@@ -39,7 +39,7 @@ public class UtilController {
     @Autowired
     private EndpointConfigurationService ecs;
 
-    @RequestMapping("/")
+    @RequestMapping(value={"", "/", "tasks"})
     public String index(@CookieValue(value = "host", defaultValue = "") String host, @CookieValue(value = "slacktoken", defaultValue = "") String slacktoken, Model model) throws SchedulerException {
 
         ecs.storeFromCoockies(host, slacktoken);
