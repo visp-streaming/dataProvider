@@ -19,6 +19,8 @@ public class PatternSelector {
             case "Constant": pattern = new Constant(); break;
             case "Linear Increase": pattern = new LinearIncrease(); break;
             case "Pyramid": pattern = new Pyramid(); break;
+            case "Random Walk": pattern = new RandomWalk(); break;
+
             default: throw new IllegalArgumentException("configured Pattern is not available");
         }
 

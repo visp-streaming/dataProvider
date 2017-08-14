@@ -1,9 +1,9 @@
 package ac.at.tuwien.infosys.visp.dataProvider.util;
 
-import org.springframework.stereotype.Controller;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.stereotype.Controller;
 
 @Controller
 public class Presets {
@@ -23,6 +23,7 @@ public class Presets {
         patterns.add("Long Sinus");
         patterns.add("Sinus");
         patterns.add("Pyramid");
+        patterns.add("Random Walk");
         return patterns;
     }
 
