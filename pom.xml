@@ -23,7 +23,7 @@
 		<h2.version>1.4.196</h2.version>
 		<quartz.version>2.3.0</quartz.version>
 		<joda.version>2.9.9</joda.version>
-		<webjars.bootstrap.version>3.3.7-1</webjars.bootstrap.version>
+		<webjars.bootstrap.version>4.0.0-beta</webjars.bootstrap.version>
 		<webjars.jquery.version>3.2.1</webjars.jquery.version>
 		<jackson.version>2.9.0.pr4</jackson.version>
 		<apache.commons.io.version>2.5</apache.commons.io.version>
