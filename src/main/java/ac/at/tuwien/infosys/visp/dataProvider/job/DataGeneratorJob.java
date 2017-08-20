@@ -3,6 +3,7 @@ package ac.at.tuwien.infosys.visp.dataProvider.job;
 
 import ac.at.tuwien.infosys.visp.dataProvider.entities.GenerationState;
 import ac.at.tuwien.infosys.visp.dataProvider.generationPattern.PatternSelector;
+import ac.at.tuwien.infosys.visp.dataProvider.util.GenerationPatternsService;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
@@ -17,7 +18,7 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 @DisallowConcurrentExecution
 public abstract class DataGeneratorJob extends QuartzJobBean {
 
-    protected String pattern;
+    protected GenerationPatternsService.Patterns pattern;
     protected String host;
     protected String user;
     protected String password;
@@ -27,6 +28,10 @@ public abstract class DataGeneratorJob extends QuartzJobBean {
     protected GenerationState state = new GenerationState();
 
     protected static final Logger LOG = LoggerFactory.getLogger(DataGeneratorJob.class);
+
+    public enum Types {
+        MACHINE_DATA, SEQUENTIAL_WAIT_GENERATOR, TAXI_DATA_GENERATOR
+    }
 
     @Override
     public void executeInternal(JobExecutionContext jobExecutionContext) {
@@ -49,8 +54,10 @@ public abstract class DataGeneratorJob extends QuartzJobBean {
             state.setOverallCounter(Integer.parseInt(jdMap.get("overallCounter").toString()));
         }
 
+        state.setAdditionalProperties(jdMap);
+
         customDataGeneration();
-        state = new PatternSelector(pattern).iterate(state);
+        state = GenerationPatternsService.getInstance(pattern).iterate(state);
         storeGenerationState();
     }
 
@@ -64,7 +71,7 @@ public abstract class DataGeneratorJob extends QuartzJobBean {
         jdMap.put("overallCounter", state.getOverallCounter().toString());
     }
 
-    public void setPattern(String pattern) {
+    public void setPattern(GenerationPatternsService.Patterns pattern) {
         this.pattern = pattern;
     }
 

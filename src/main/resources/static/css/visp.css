@@ -79,6 +79,7 @@ h1 {
  * Dashboard
  */
 
+
 /* Placeholders */
 .placeholders {
     padding-bottom: 3rem;
@@ -87,5 +88,10 @@ h1 {
 .placeholder img {
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
+}
+
+
+.propertyTitle {
+    text-transform: capitalize;
 }
 

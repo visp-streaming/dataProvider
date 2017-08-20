@@ -3,8 +3,20 @@ package ac.at.tuwien.infosys.visp.dataProvider.generationPattern;
 
 import ac.at.tuwien.infosys.visp.dataProvider.entities.GenerationState;
 
-public interface GenerationPattern {
+import java.util.HashSet;
+import java.util.Set;
 
-    GenerationState iterate(GenerationState state);
+public abstract class GenerationPattern {
+
+    public abstract GenerationState iterate(GenerationState state);
+
+    public Set<String> getPropertyNames(){
+        Set<String> propertyNames = new HashSet<>();
+
+        propertyNames.add("frequency");
+        propertyNames.add("iterations");
+
+        return propertyNames;
+    }
 
 }

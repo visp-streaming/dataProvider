@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import ac.at.tuwien.infosys.visp.dataProvider.entities.GenerationState;
 
-public class RandomWalk implements GenerationPattern{
+public class RandomWalk extends GenerationPattern{
 
     public GenerationState iterate(GenerationState state) {
 

@@ -1,26 +1,25 @@
 package ac.at.tuwien.infosys.visp.dataProvider.ui;
 
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
-
+import ac.at.tuwien.infosys.visp.dataProvider.entities.CreateTaskDto;
 import ac.at.tuwien.infosys.visp.dataProvider.entities.CreateTaskForm;
 import ac.at.tuwien.infosys.visp.dataProvider.entities.EndpointConfiguration;
+import ac.at.tuwien.infosys.visp.dataProvider.entities.TaskInfoDto;
 import ac.at.tuwien.infosys.visp.dataProvider.util.EndpointConfigurationService;
 import ac.at.tuwien.infosys.visp.dataProvider.util.JobUtility;
 import ac.at.tuwien.infosys.visp.dataProvider.util.MyScheduler;
-import ac.at.tuwien.infosys.visp.dataProvider.util.Presets;
+import ac.at.tuwien.infosys.visp.dataProvider.util.PresetGenerator;
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class UtilController {
@@ -34,7 +33,7 @@ public class UtilController {
     private JobUtility jobUtility;
 
     @Autowired
-    private Presets presets;
+    private PresetGenerator presetGenerator;
 
     @Autowired
     private EndpointConfigurationService ecs;
@@ -61,8 +60,6 @@ public class UtilController {
         taskform.setFrequency(480);
         taskform.setIterations(20000);
 
-        model.addAttribute("types", presets.getTypes());
-        model.addAttribute("patterns", presets.getPatterns());
         model.addAttribute(taskform);
 
         if (ecs.getConfiguration().getHost() == null) {
@@ -72,17 +69,6 @@ public class UtilController {
         }
 
         return "createTask";
-    }
-
-    @RequestMapping(value="/createTask", method= RequestMethod.POST)
-    public String userCreated(@ModelAttribute CreateTaskForm form, Model model) throws SchedulerException {
-
-        myScheduler.scheduleJob(form.getType(), form.getPattern(), form.getFrequency(), form.getIterations());
-
-        model.addAttribute("message", "A new task has beeen started.");
-        model.addAttribute("tasks", jobUtility.getTasks());
-
-        return "tasks";
     }
 
 
@@ -128,5 +114,18 @@ public class UtilController {
         model.addAttribute("message", "Task in the group \"" + group + "\" with the name \"" + name + "\" has been killed.");
         model.addAttribute("tasks", jobUtility.getTasks());
         return "tasks";
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/taskinfos", method = RequestMethod.GET)
+    public @ResponseBody TaskInfoDto getTaskInfos(){
+        return presetGenerator.getTaskInfos();
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/createTask", method = RequestMethod.POST)
+    public ResponseEntity newTask(@RequestBody CreateTaskDto task) throws SchedulerException {
+        myScheduler.scheduleJob(task.getType(), task.getPattern(), task.getPatternProperties());
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

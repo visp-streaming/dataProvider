@@ -1,15 +1,10 @@
 package ac.at.tuwien.infosys.visp.dataProvider.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import java.util.HashMap;
+import java.util.Map;
 
-@Entity
 public class GenerationState {
 
-    @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
     private long id;
 
     private String direction;
@@ -18,12 +13,14 @@ public class GenerationState {
     private String time;
     private Integer actualAmount;
     private Integer overallCounter;
+    private Map<String, Object> additionalProperties;
 
     public GenerationState() {
         direction = "up";
         iteration = 1;
         amount = 1;
         overallCounter = 0;
+        additionalProperties = new HashMap<>();
     }
 
     public void increaseIteration() {
@@ -88,5 +85,17 @@ public class GenerationState {
 
     public void setOverallCounter(Integer overallCounter) {
         this.overallCounter = overallCounter;
+    }
+
+    public Map<String, Object> getAdditionalProperties() {
+        return additionalProperties;
+    }
+
+    public void setAdditionalProperties(Map<String, Object> additionalProperties) {
+        this.additionalProperties = additionalProperties;
+    }
+
+    public Integer getAdditionalProperty(String name){
+        return (Integer)additionalProperties.getOrDefault(name, 1);
     }
 }

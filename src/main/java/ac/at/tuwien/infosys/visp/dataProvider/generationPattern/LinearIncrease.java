@@ -3,7 +3,7 @@ package ac.at.tuwien.infosys.visp.dataProvider.generationPattern;
 
 import ac.at.tuwien.infosys.visp.dataProvider.entities.GenerationState;
 
-public class LinearIncrease implements GenerationPattern{
+public class LinearIncrease extends GenerationPattern{
 
     public GenerationState iterate(GenerationState state) {
 

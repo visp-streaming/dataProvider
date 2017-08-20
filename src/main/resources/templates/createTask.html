@@ -6,6 +6,75 @@
 <body>
 <th:block layout:fragment="content">
 
+    <script>
+        $(document).ready(function () {
+
+            var taskInfos;
+
+            $.get("/taskinfos", function(data){
+                taskInfos = data;
+
+                $.each(data.generators, function(i, item){
+                    $('#type').append($('<option value="'+item+'">' + item.split('_').join(' ') + '</option>'));
+                });
+
+                $.each(data.patterns, function(item, properties){
+                    $('#pattern').append($('<option value="'+item+'">' + item.split('_').join(' ') + '</option>'));
+                });
+
+                $('#pattern').change();
+            });
+
+            $('#pattern').on('change', function () {
+                setupProperties(this.value);
+            });
+
+            $('#newTaskForm').on('submit', function (event) {
+                event.preventDefault();
+                var formData = $(this).serializeArray();
+
+                var data = {};
+                data.patternProperties = {};
+
+                $.each(formData, function (i, item) {
+                    if(item.name == 'type') data.type = item.value;
+                    else if(item.name == 'pattern') data.pattern = item.value;
+                    else data.patternProperties[item.name] = item.value;
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/createTask',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    data: JSON.stringify(data)
+                }).done(function (data) {
+                    window.location.href = '/';
+                });
+            });
+
+            function getPropertyElement(name) {
+                return $('<div class="form-group row">' +
+                    '       <label for="frequency" class="col-sm-4 control-label propertyTitle">'+name+'</label>' +
+                    '       <div class="col-sm-8">' +
+                    '          <input type="number" class="form-control" name="'+name+'" value="1000" placeholder="1000" />' +
+                    '       </div>' +
+                    '     </div>')
+            }
+
+            function setupProperties(patternType) {
+                var properties = taskInfos.patterns[patternType];
+
+                $('#patternProperties').empty();
+
+                $.each(properties, function (i, item) {
+                    $('#patternProperties').append(getPropertyElement(item));
+                });
+            }
+        });
+    </script>
 
     <div th:if="${message != null}" class="alert alert-info" role="alert">
         <span th:text="${message}"></span>
@@ -20,38 +89,24 @@
                     <label for="type" class="col-sm-5 form-control-label">Job Type</label>
                     <div class="col-sm-7">
                         <select id="type" name="type" class="custom-select"  >
-                            <th:forEach items="${types}"  th:field="*{type}">
-                                <option th:each="type : ${types}" th:value="${type}" th:text="${type}"></option>
-                            </th:forEach>
+                            <!--/* gets populated via javascript */-->
                         </select>
                     </div>
                 </div>
+
 
                 <div class="form-group row">
                     <label for="pattern" class="col-sm-5 form-control-label">Pattern</label>
                     <div class="col-sm-7">
                         <select id="pattern" name="pattern" class="custom-select"  >
-                            <th:forEach items="${patterns}"  th:field="*{pattern}">
-                                <option th:each="pattern : ${patterns}" th:value="${pattern}" th:text="${pattern}"></option>
-                            </th:forEach>
+                            <!--/* gets populated via javascript */-->
                         </select>
                     </div>
                 </div>
 
-                <div class="form-group row">
-                    <label for="frequency" class="col-sm-5 form-control-label">Frequency (ms)</label>
-                    <div class="col-sm-7">
-                        <input type="number" class="form-control" id="frequency" name="frequency"  th:id="frequency" th:name="frequency" th:value="${createTaskForm.frequency}"  placeholder="1000" />
-                    </div>
+                <div id="patternProperties">
+                    <!--/* gets populated via javascript */-->
                 </div>
-
-                <div class="form-group row">
-                    <label for="iterations" class="col-sm-5 form-control-label">Iterations</label>
-                    <div class="col-sm-7">
-                        <input type="number" class="form-control" id="iterations" name="iterations" th:id="iterations" th:name="iterations" th:value="${createTaskForm.iterations}" placeholder="10" />
-                    </div>
-                </div>
-
 
                 <div class="form-buttons">
                     <div class="btn-group text-center">
