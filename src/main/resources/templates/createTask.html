@@ -29,7 +29,7 @@
                 setupProperties(this.value);
             });
 
-            $('#newTaskForm').on('submit', function (event) {
+            $('#taskForm').on('submit', function (event) {
                 event.preventDefault();
                 var formData = $(this).serializeArray();
 
@@ -83,7 +83,7 @@
     <div class="card card-default">
         <div class="card-header">Create new Task</div>
         <div class="card-body">
-            <form method="post" th:action="@{/createTask}" th:object="${createTaskForm}" class="form-horizontal">
+            <form method="post" id="taskForm" th:action="@{/createTask}" th:object="${createTaskForm}" class="form-horizontal">
 
                 <div class="form-group row">
                     <label for="type" class="col-sm-5 form-control-label">Job Type</label>

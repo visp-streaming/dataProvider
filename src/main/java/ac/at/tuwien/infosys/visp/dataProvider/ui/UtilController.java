@@ -21,7 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class UtilController {
-    
 
     @Autowired
     private MyScheduler myScheduler;
