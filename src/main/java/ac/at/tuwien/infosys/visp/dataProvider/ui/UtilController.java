@@ -9,8 +9,6 @@ import ac.at.tuwien.infosys.visp.dataProvider.util.JobUtility;
 import ac.at.tuwien.infosys.visp.dataProvider.util.MyScheduler;
 import ac.at.tuwien.infosys.visp.dataProvider.util.PresetGenerator;
 import org.quartz.SchedulerException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class UtilController {
-
-    private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+    
 
     @Autowired
     private MyScheduler myScheduler;

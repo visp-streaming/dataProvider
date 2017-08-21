@@ -11,9 +11,6 @@ public class CreateTaskDto {
     private DataGeneratorJob.Types type;
     private Map<String, Integer> patternProperties;
 
-    public CreateTaskDto() {
-    }
-
     public GenerationPatternsService.Patterns getPattern() {
         return pattern;
     }

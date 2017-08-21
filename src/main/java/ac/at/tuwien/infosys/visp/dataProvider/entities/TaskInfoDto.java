@@ -3,7 +3,6 @@ package ac.at.tuwien.infosys.visp.dataProvider.entities;
 import ac.at.tuwien.infosys.visp.dataProvider.job.DataGeneratorJob;
 import ac.at.tuwien.infosys.visp.dataProvider.util.GenerationPatternsService;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;

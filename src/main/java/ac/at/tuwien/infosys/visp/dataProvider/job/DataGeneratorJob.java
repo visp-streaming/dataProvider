@@ -2,14 +2,11 @@ package ac.at.tuwien.infosys.visp.dataProvider.job;
 
 
 import ac.at.tuwien.infosys.visp.dataProvider.entities.GenerationState;
-import ac.at.tuwien.infosys.visp.dataProvider.generationPattern.PatternSelector;
 import ac.at.tuwien.infosys.visp.dataProvider.util.GenerationPatternsService;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.PersistJobDataAfterExecution;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.scheduling.quartz.QuartzJobBean;
@@ -26,8 +23,6 @@ public abstract class DataGeneratorJob extends QuartzJobBean {
     protected JobDataMap jdMap;
 
     protected GenerationState state = new GenerationState();
-
-    protected static final Logger LOG = LoggerFactory.getLogger(DataGeneratorJob.class);
 
     public enum Types {
         MACHINE_DATA, SEQUENTIAL_WAIT_GENERATOR, TAXI_DATA_GENERATOR
