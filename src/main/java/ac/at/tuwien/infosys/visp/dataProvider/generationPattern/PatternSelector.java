@@ -20,6 +20,9 @@ public class PatternSelector {
             case "Linear Increase": pattern = new LinearIncrease(); break;
             case "Pyramid": pattern = new Pyramid(); break;
             case "Random Walk": pattern = new RandomWalk(); break;
+            case "Random Walk Half": pattern = new RandomWalkHalf(); break;
+            case "Random Walk 2": pattern = new RandomWalk2(); break;
+            case "Random Walk Half 2": pattern = new RandomWalkHalf2(); break;
 
             default: throw new IllegalArgumentException("configured Pattern is not available");
         }

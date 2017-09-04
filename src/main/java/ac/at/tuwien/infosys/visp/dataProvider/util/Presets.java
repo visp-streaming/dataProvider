@@ -24,6 +24,9 @@ public class Presets {
         patterns.add("Sinus");
         patterns.add("Pyramid");
         patterns.add("Random Walk");
+        patterns.add("Random Walk Half");
+        patterns.add("Random Walk 2");
+        patterns.add("Random Walk Half 2");
         return patterns;
     }
 
