@@ -25,10 +25,10 @@
 		<joda.version>2.9.9</joda.version>
 		<webjars.version.bootstrap>4.0.0-beta</webjars.version.bootstrap>
 		<webjars.version.jquery>3.2.1</webjars.version.jquery>
-		<jackson.version>2.9.0.pr4</jackson.version>
+		<jackson.version>2.9.0</jackson.version>
 		<apache.commons.io.version>2.5</apache.commons.io.version>
 		<visp.common.version>0.3</visp.common.version>
-		<dockerfile.maven.version>1.3.2</dockerfile.maven.version>
+		<dockerfile.maven.version>1.3.5</dockerfile.maven.version>
         <maven.release.plugin.version>2.5.3</maven.release.plugin.version>
 		<simpleslackapi.version>1.0.0</simpleslackapi.version>
 	</properties>
