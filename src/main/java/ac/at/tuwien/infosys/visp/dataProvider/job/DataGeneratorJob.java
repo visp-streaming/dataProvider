@@ -49,6 +49,10 @@ public abstract class DataGeneratorJob extends QuartzJobBean {
             state.setOverallCounter(Integer.parseInt(jdMap.get("overallCounter").toString()));
         }
 
+        if(jdMap.get("customData") != null){
+            state.setCustomData((int[])jdMap.get("customData"));
+        }
+
         state.setAdditionalProperties(jdMap);
 
         customDataGeneration();

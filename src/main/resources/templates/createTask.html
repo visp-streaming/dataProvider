@@ -39,6 +39,7 @@
                 $.each(formData, function (i, item) {
                     if(item.name == 'type') data.type = item.value;
                     else if(item.name == 'pattern') data.pattern = item.value;
+                    else if(item.name.toLowerCase().indexOf('custom') !== -1) data.customPattern = item.value;
                     else data.patternProperties[item.name] = item.value;
                 });
 
@@ -56,10 +57,22 @@
             });
 
             function getPropertyElement(name) {
+
+                if(name.toLowerCase().indexOf('custom') !== -1) return getTextarea(name);
+
                 return $('<div class="form-group row">' +
                     '       <label for="frequency" class="col-sm-5 control-label propertyTitle">'+name+'</label>' +
                     '       <div class="col-sm-7">' +
                     '          <input type="number" class="form-control" name="'+name+'" value="1000" placeholder="1000" />' +
+                    '       </div>' +
+                    '     </div>')
+            }
+
+            function getTextarea(name) {
+                return $('<div class="form-group row">' +
+                    '       <label for="frequency" class="col-sm-5 control-label propertyTitle">'+name+'</label>' +
+                    '       <div class="col-sm-7">' +
+                    '          <textarea class="form-control" name="custom" rows="5"></textarea>' +
                     '       </div>' +
                     '     </div>')
             }

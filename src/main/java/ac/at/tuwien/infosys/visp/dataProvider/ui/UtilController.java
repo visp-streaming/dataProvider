@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -121,7 +122,13 @@ public class UtilController {
     @CrossOrigin
     @RequestMapping(value = "/createTask", method = RequestMethod.POST)
     public ResponseEntity newTask(@RequestBody CreateTaskDto task) throws SchedulerException {
-        myScheduler.scheduleJob(task.getType(), task.getPattern(), task.getPatternProperties());
+        myScheduler.scheduleJob(task);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/createCustomTask", method = RequestMethod.POST)
+    public ResponseEntity newCustomTask(@RequestParam("file") MultipartFile file){
         return new ResponseEntity(HttpStatus.OK);
     }
 }

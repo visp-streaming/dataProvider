@@ -27,6 +27,8 @@ public class Presets {
         patterns.add("Random Walk Half");
         patterns.add("Random Walk 2");
         patterns.add("Random Walk Half 2");
+        patterns.add("Custom");
+
         return patterns;
     }
 

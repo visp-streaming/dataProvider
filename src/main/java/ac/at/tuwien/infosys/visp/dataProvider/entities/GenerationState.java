@@ -14,6 +14,7 @@ public class GenerationState {
     private Integer actualAmount;
     private Integer overallCounter;
     private Map<String, Object> additionalProperties;
+    private int customData[];
 
     public GenerationState() {
         direction = "up";
@@ -97,5 +98,13 @@ public class GenerationState {
 
     public Integer getAdditionalProperty(String name){
         return (Integer)additionalProperties.getOrDefault(name, 1);
+    }
+
+    public int[] getCustomData() {
+        return customData;
+    }
+
+    public void setCustomData(int[] customData) {
+        this.customData = customData;
     }
 }

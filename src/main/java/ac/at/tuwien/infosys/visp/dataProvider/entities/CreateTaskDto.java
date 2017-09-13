@@ -9,6 +9,7 @@ public class CreateTaskDto {
 
     private GenerationPatternsService.Patterns pattern;
     private DataGeneratorJob.Types type;
+    private String customPattern;
     private Map<String, Integer> patternProperties;
 
     public GenerationPatternsService.Patterns getPattern() {
@@ -33,5 +34,13 @@ public class CreateTaskDto {
 
     public void setPatternProperties(Map<String, Integer> patternProperties) {
         this.patternProperties = patternProperties;
+    }
+
+    public String getCustomPattern() {
+        return customPattern;
+    }
+
+    public void setCustomPattern(String customPattern) {
+        this.customPattern = customPattern;
     }
 }

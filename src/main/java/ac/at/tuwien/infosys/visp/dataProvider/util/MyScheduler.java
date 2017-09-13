@@ -1,5 +1,6 @@
 package ac.at.tuwien.infosys.visp.dataProvider.util;
 
+import ac.at.tuwien.infosys.visp.dataProvider.entities.CreateTaskDto;
 import ac.at.tuwien.infosys.visp.dataProvider.job.MachineDataProvider;
 import ac.at.tuwien.infosys.visp.dataProvider.job.SequentialWaitGeneratorJob;
 import ac.at.tuwien.infosys.visp.dataProvider.job.TaxiDataGeneratorJob;
@@ -8,9 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Stream;
 
 import static ac.at.tuwien.infosys.visp.dataProvider.job.DataGeneratorJob.Types;
 import static ac.at.tuwien.infosys.visp.dataProvider.util.GenerationPatternsService.Patterns;
@@ -23,23 +23,34 @@ public class MyScheduler {
     @Autowired
     private EndpointConfigurationService ecs;
 
-    public void scheduleJob(Types jobType, Patterns generationPattern, Map<String, Integer> patternProperties) throws SchedulerException {
+    public void scheduleJob(CreateTaskDto task) throws SchedulerException {
 
         Map<String, Object> jobData = new HashMap<>();
-        Class jobClass = getJobClass(jobType);
+        Class jobClass = getJobClass(task.getType());
         JobDetail jobDetail;
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
+        Map<String, Integer> patternProperties = task.getPatternProperties();
 
 
-        jobData.putAll(patternProperties);
+        jobData.putAll(task.getPatternProperties());
 
-        jobData.put("pattern", generationPattern);
+        jobData.put("pattern", task.getPattern());
         jobData.put("host", ecs.getConfiguration().getHost());
         jobData.put("user", ecs.getConfiguration().getName());
         jobData.put("password", ecs.getConfiguration().getPassword());
 
+        if(task.getCustomPattern() != null){
+            int[] values = Arrays.stream(task.getCustomPattern().split(","))
+                    .mapToInt(value -> Integer.valueOf(value))
+                    .toArray();
+
+            if(values.length > 0)
+                jobData.put("customData", values);
+        }
+
+
         jobDetail = JobBuilder.newJob(jobClass)
-                .withIdentity(jobType + "-" + generationPattern, UUID.randomUUID().toString())
+                .withIdentity(task.getType() + "-" + task.getPattern(), UUID.randomUUID().toString())
                 .setJobData(new JobDataMap(jobData))
                 .withDescription("")
                 .build();
