@@ -1,6 +1,17 @@
 package ac.at.tuwien.infosys.visp.dataProvider.util;
 
-import ac.at.tuwien.infosys.visp.dataProvider.generationPattern.*;
+import ac.at.tuwien.infosys.visp.dataProvider.generationPattern.ChangeAndHoldPattern;
+import ac.at.tuwien.infosys.visp.dataProvider.generationPattern.Constant;
+import ac.at.tuwien.infosys.visp.dataProvider.generationPattern.CustomPattern;
+import ac.at.tuwien.infosys.visp.dataProvider.generationPattern.GenerationPattern;
+import ac.at.tuwien.infosys.visp.dataProvider.generationPattern.LinearIncrease;
+import ac.at.tuwien.infosys.visp.dataProvider.generationPattern.LongSinus;
+import ac.at.tuwien.infosys.visp.dataProvider.generationPattern.Pyramid;
+import ac.at.tuwien.infosys.visp.dataProvider.generationPattern.RandomWalk;
+import ac.at.tuwien.infosys.visp.dataProvider.generationPattern.RandomWalk2;
+import ac.at.tuwien.infosys.visp.dataProvider.generationPattern.RandomWalkHalf;
+import ac.at.tuwien.infosys.visp.dataProvider.generationPattern.RandomWalkHalf2;
+import ac.at.tuwien.infosys.visp.dataProvider.generationPattern.Sinus;
 
 import java.util.HashMap;
 import java.util.Map;

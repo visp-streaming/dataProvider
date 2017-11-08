@@ -4,16 +4,24 @@ import ac.at.tuwien.infosys.visp.dataProvider.entities.CreateTaskDto;
 import ac.at.tuwien.infosys.visp.dataProvider.job.MachineDataProvider;
 import ac.at.tuwien.infosys.visp.dataProvider.job.SequentialWaitGeneratorJob;
 import ac.at.tuwien.infosys.visp.dataProvider.job.TaxiDataGeneratorJob;
-import org.quartz.*;
+import org.quartz.JobBuilder;
+import org.quartz.JobDataMap;
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.SimpleScheduleBuilder;
+import org.quartz.SimpleTrigger;
+import org.quartz.TriggerBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.stream.Stream;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 import static ac.at.tuwien.infosys.visp.dataProvider.job.DataGeneratorJob.Types;
-import static ac.at.tuwien.infosys.visp.dataProvider.util.GenerationPatternsService.Patterns;
 
 @Service
 public class MyScheduler {
