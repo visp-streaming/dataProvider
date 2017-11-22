@@ -18,6 +18,7 @@ public class Presets {
 
     public List<String> getPatterns() {
         List<String> patterns = new ArrayList<>();
+
         patterns.add("Constant");
         patterns.add("Linear Increase");
         patterns.add("Long Sinus");
